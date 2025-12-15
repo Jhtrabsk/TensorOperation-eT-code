@@ -1,0 +1,6430 @@
+best_score = 2000000
+best_score = 1000000
+best_score = 2000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ai
+Sorting      I1_ia -> I1_ai
+Contracting  I2_bj * I1_ai -> X0_bjai
+dger
+Deallocating I1_ai
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 2000000
+best_score = 2000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bj
+Sorting      I1_jb -> I1_bj
+Contracting  I1_bj * I2_ai -> X0_bjai
+dger
+Deallocating I1_bj
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 2000000
+best_score = 2000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bj
+Sorting      I2_jb -> I2_bj
+Contracting  I2_bj * I1_ai -> X0_bjai
+dger
+Deallocating I2_bj
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 1000000
+best_score = 2000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ai
+Sorting      I2_ia -> I2_ai
+Contracting  I1_bj * I2_ai -> X0_bjai
+dger
+Deallocating I2_ai
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 2000000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_iajb
+Contracting  I1_ci * I2_cajb -> X0_iajb
+dgemm
+
+Sorting      X0_iajb -> X0_bjai
+Deallocating X0_iajb
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2000000
+best_score = 1000000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_biaj
+Contracting  I2_cbia * I1_cj -> X0_biaj
+dgemm
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+1000000
+best_score = 2100000
+best_score = 1200000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bijk
+Sorting      I2_ikjb -> I2_bijk
+Allocating   X0_bija
+Contracting  I2_bijk * I1_ak -> X0_bija
+dgemm
+Deallocating I2_bijk
+
+Sorting      X0_bija -> X0_bjai
+Deallocating X0_bija
+Finalizing eT function with total sort cost:
+1200000
+best_score = 1000000
+best_score = 200000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_jaik
+Sorting      I2_iajk -> I2_jaik
+Contracting  I1_bk * I2_jaik -> X0_bjai
+dgemm
+Deallocating I2_jaik
+
+Finalizing eT function with total sort cost:
+200000
+   subroutine jacobian_p_ccsd_mixed_doubles_1_p_ccsd(wf, sigma_aibi, F_ov, c1_vo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: F_ov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: c1_vo
+!
+      real(dp), dimension(:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o)
+      call sort_to_21(F_ov, X1, wf%n_o, wf%n_v)
+!
+      call dger(wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         c1_vo, 1, &
+         X1, 1, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_1_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_2_p_ccsd(wf, sigma_aibi, F_ov, c1_vo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: F_ov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: c1_vo
+!
+      real(dp), dimension(:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o)
+      call sort_to_21(F_ov, X1, wf%n_o, wf%n_v)
+!
+      call dger(wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         X1, 1, &
+         c1_vo, 1, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_2_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_3_p_ccsd(wf, sigma_aibi, c1_vo, g_IIov)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IIov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: c1_vo
+!
+      real(dp), dimension(:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o)
+      call sort_to_21(g_IIov, X1, wf%n_o, wf%n_v)
+!
+      call dger(wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         -one, &
+         X1, 1, &
+         c1_vo, 1, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_3_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_4_p_ccsd(wf, sigma_aibi, c1_vo, g_IIov)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IIov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: c1_vo
+!
+      real(dp), dimension(:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o)
+      call sort_to_21(g_IIov, X1, wf%n_o, wf%n_v)
+!
+      call dger(wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         -one, &
+         c1_vo, 1, &
+         X1, 1, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_4_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_5_p_ccsd(wf, sigma_aibi, c1_vo, g_vvov)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: c1_vo
+      real(dp), dimension(wf%n_v,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_vvov
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+!
+      call dgemm('T', 'N', &
+         wf%n_o, &
+         wf%n_v**2*wf%n_o, &
+         wf%n_v, &
+         one, &
+         c1_vo, &
+         wf%n_v, &
+         g_vvov, &
+         wf%n_v, &
+         zero, &
+         X1, &
+         wf%n_o)
+!
+      call add_4321_to_1234(one, X1, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_5_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_6_p_ccsd(wf, sigma_aibi, c1_vo, g_vvov)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: c1_vo
+      real(dp), dimension(wf%n_v,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_vvov
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'N', &
+         wf%n_v**2*wf%n_o, &
+         wf%n_o, &
+         wf%n_v, &
+         one, &
+         g_vvov, &
+         wf%n_v, &
+         c1_vo, &
+         wf%n_v, &
+         zero, &
+         X1, &
+         wf%n_v**2*wf%n_o)
+!
+      call add_1432_to_1234(one, X1, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_6_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_7_p_ccsd(wf, sigma_aibi, c1_vo, g_ooov)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: c1_vo
+      real(dp), dimension(wf%n_o,wf%n_o,wf%n_o,wf%n_v), intent(in) :: g_ooov
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_o, wf%n_o)
+      call sort_to_4132(g_ooov, X1, wf%n_o, wf%n_o, wf%n_o, wf%n_v)
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+!
+      call dgemm('N', 'T', &
+         wf%n_v*wf%n_o**2, &
+         wf%n_v, &
+         wf%n_o, &
+         -one, &
+         X1, &
+         wf%n_v*wf%n_o**2, &
+         c1_vo, &
+         wf%n_v, &
+         zero, &
+         X2, &
+         wf%n_v*wf%n_o**2)
+!
+      call mem%dealloc(X1)
+      call add_1423_to_1234(one, X2, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_7_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_8_p_ccsd(wf, sigma_aibi, c1_vo, g_ovoo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: c1_vo
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_o), intent(in) :: g_ovoo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_o, wf%n_v, wf%n_o, wf%n_o)
+      call sort_to_3214(g_ovoo, X1, wf%n_o, wf%n_v, wf%n_o, wf%n_o)
+!
+      call dgemm('N', 'T', &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         wf%n_o, &
+         -one, &
+         c1_vo, &
+         wf%n_v, &
+         X1, &
+         wf%n_v*wf%n_o**2, &
+         one, &
+         sigma_aibi, &
+         wf%n_v)
+!
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_8_p_ccsd
+
+best_score = 2000000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_aibj
+Contracting  I1_ca * I2_cibj -> X0_aibj
+dgemm
+
+Sorting      X0_aibj -> X0_bjai
+Deallocating X0_aibj
+Finalizing eT function with total sort cost:
+2000000
+best_score = 0
+Total number of checked permutations: 1
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I1_cb * I2_cjai -> X0_bjai
+dgemm
+
+Finalizing eT function with total sort cost:
+0
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjak
+Sorting      I2_akbj -> I2_bjak
+Contracting  I2_bjak * I1_ik -> X0_bjai
+dgemm
+Deallocating I2_bjak
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2000000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_jaib
+Contracting  I1_jk * I2_aibk -> X0_jaib
+dgemm
+
+Sorting      X0_jaib -> X0_bjai
+Deallocating X0_jaib
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2000000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_aibj
+Contracting  I2_ca * I1_cibj -> X0_aibj
+dgemm
+
+Sorting      X0_aibj -> X0_bjai
+Deallocating X0_aibj
+Finalizing eT function with total sort cost:
+2000000
+best_score = 0
+Total number of checked permutations: 1
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I2_cb * I1_cjai -> X0_bjai
+dgemm
+
+Finalizing eT function with total sort cost:
+0
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bjak
+Sorting      I1_akbj -> I1_bjak
+Contracting  I1_bjak * I2_ik -> X0_bjai
+dgemm
+Deallocating I1_bjak
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2000000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_jaib
+Contracting  I2_jk * I1_aibk -> X0_jaib
+dgemm
+
+Sorting      X0_jaib -> X0_bjai
+Deallocating X0_jaib
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2000000
+best_score = 1000000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_bjia
+Contracting  I2_ckbj * I1_ckia -> X0_bjia
+dgemm
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+1000000
+best_score = 2000000
+best_score = 1000000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbj
+Sorting      I1_ckjb -> I1_ckbj
+Contracting  I1_ckbj * I2_ckai -> X0_bjai
+dgemm
+Deallocating I1_ckbj
+
+Finalizing eT function with total sort cost:
+1000000
+best_score = 103000000
+best_score = 102000000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_cdij
+Sorting      I1_cidj -> I1_cdij
+Allocating   I2_cdba
+Sorting      I2_cadb -> I2_cdba
+Allocating   X0_baij
+Contracting  I2_cdba * I1_cdij -> X0_baij
+dgemm
+Deallocating I1_cdij
+Deallocating I2_cdba
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+102000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckai
+Sorting      I1_ciak -> I1_ckai
+Allocating   I2_ckbj
+Sorting      I2_ckjb -> I2_ckbj
+Contracting  I2_ckbj * I1_ckai -> X0_bjai
+dgemm
+Deallocating I1_ckai
+Deallocating I2_ckbj
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbi
+Sorting      I1_cibk -> I1_ckbi
+Allocating   I2_ckaj
+Sorting      I2_cajk -> I2_ckaj
+Allocating   X0_biaj
+Contracting  I1_ckbi * I2_ckaj -> X0_biaj
+dgemm
+Deallocating I1_ckbi
+Deallocating I2_ckaj
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+3000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckja
+Sorting      I1_cjak -> I1_ckja
+Allocating   I2_ckbi
+Sorting      I2_cbik -> I2_ckbi
+Allocating   X0_bija
+Contracting  I2_ckbi * I1_ckja -> X0_bija
+dgemm
+Deallocating I1_ckja
+Deallocating I2_ckbi
+
+Sorting      X0_bija -> X0_bjai
+Deallocating X0_bija
+Finalizing eT function with total sort cost:
+3000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbj
+Sorting      I1_cjbk -> I1_ckbj
+Allocating   X0_bjia
+Contracting  I1_ckbj * I2_ckia -> X0_bjia
+dgemm
+Deallocating I1_ckbj
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+2000000
+best_score = 3010000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ijkl
+Sorting      I2_ikjl -> I2_ijkl
+Allocating   I1_abkl
+Sorting      I1_akbl -> I1_abkl
+Allocating   X0_ijab
+Contracting  I2_ijkl * I1_abkl -> X0_ijab
+dgemm
+Deallocating I2_ijkl
+Deallocating I1_abkl
+
+Sorting      X0_ijab -> X0_bjai
+Deallocating X0_ijab
+Finalizing eT function with total sort cost:
+3010000
+best_score = 2000000
+best_score = 2000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ai
+Contracting  I3_ck * I1_ckai -> X1_ai
+dgemv
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bj
+Sorting      I2_jb -> I2_bj
+Contracting  I2_bj * X1_ai -> X0_bjai
+dger
+Deallocating X1_ai
+Deallocating I2_bj
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 1000000
+best_score = 2000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bj
+Contracting  I3_ck * I1_ckbj -> X1_bj
+dgemv
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ai
+Sorting      I2_ia -> I2_ai
+Contracting  X1_bj * I2_ai -> X0_bjai
+dger
+Deallocating X1_bj
+Deallocating I2_ai
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 3000000
+best_score = 2002000
+best_score = 1002000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckai
+Sorting      I1_ciak -> I1_ckai
+Allocating   X1_ai
+Contracting  I3_ck * I1_ckai -> X1_ai
+dgemv
+Deallocating I1_ckai
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bj
+Sorting      I2_jb -> I2_bj
+Contracting  I2_bj * X1_ai -> X0_bjai
+dger
+Deallocating X1_ai
+Deallocating I2_bj
+
+Finalizing eT function with total sort cost:
+1002000
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ac
+Contracting  I2_ka * I3_ck -> X1_ac
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_aibj
+Contracting  X1_ac * I1_cibj -> X0_aibj
+dgemm
+Deallocating X1_ac
+
+Sorting      X0_aibj -> X0_bjai
+Deallocating X0_aibj
+Finalizing eT function with total sort cost:
+2000000
+best_score = 0
+Total number of checked permutations: 1
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bc
+Contracting  I2_kb * I3_ck -> X1_bc
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  X1_bc * I1_cjai -> X0_bjai
+dgemm
+Deallocating X1_bc
+
+Finalizing eT function with total sort cost:
+0
+best_score = 3000000
+best_score = 2000000
+best_score = 1002000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbj
+Sorting      I1_cjbk -> I1_ckbj
+Allocating   X1_bj
+Contracting  I3_ck * I1_ckbj -> X1_bj
+dgemv
+Deallocating I1_ckbj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ai
+Sorting      I2_ia -> I2_ai
+Contracting  X1_bj * I2_ai -> X0_bjai
+dger
+Deallocating X1_bj
+Deallocating I2_ai
+
+Finalizing eT function with total sort cost:
+1002000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ik
+Contracting  I2_ic * I3_ck -> X1_ik
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bjak
+Sorting      I1_akbj -> I1_bjak
+Contracting  I1_bjak * X1_ik -> X0_bjai
+dgemm
+Deallocating X1_ik
+Deallocating I1_bjak
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_jk
+Contracting  I2_jc * I3_ck -> X1_jk
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_jaib
+Contracting  X1_jk * I1_aibk -> X0_jaib
+dgemm
+Deallocating X1_jk
+
+Sorting      X0_jaib -> X0_bjai
+Deallocating X0_jaib
+Finalizing eT function with total sort cost:
+2000000
+best_score = 4000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bjck
+Contracting  I2_dlbj * I3_ckdl -> X1_bjck
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bjkc
+Sorting      X1_bjck -> X1_bjkc
+Deallocating X1_bjck
+Allocating   X0_bjia
+Contracting  X1_bjkc * I1_kcia -> X0_bjia
+dgemm
+Deallocating X1_bjkc
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+2000000
+best_score = 4000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_aick
+Contracting  I2_dlai * I3_ckdl -> X1_aick
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbj
+Sorting      I1_kcjb -> I1_ckbj
+Contracting  I1_ckbj * X1_aick -> X0_bjai
+dgemm
+Deallocating I1_ckbj
+Deallocating X1_aick
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 5000000
+best_score = 4000000
+Total number of checked permutations: 64
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_cdij
+Sorting      I1_cidj -> I1_cdij
+Allocating   I3_cdkl
+Sorting      I3_ckdl -> I3_cdkl
+Allocating   X1_ijkl
+Contracting  I1_cdij * I3_cdkl -> X1_ijkl
+dgemm
+Deallocating I1_cdij
+Deallocating I3_cdkl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_klba
+Sorting      I2_kalb -> I2_klba
+Allocating   X0_baij
+Contracting  I2_klba * X1_ijkl -> X0_baij
+dgemm
+Deallocating X1_ijkl
+Deallocating I2_klba
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+4000000
+best_score = 5000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_dlbj
+Sorting      I2_lbjd -> I2_dlbj
+Allocating   X1_bjck
+Contracting  I2_dlbj * I3_ckdl -> X1_bjck
+dgemm
+Deallocating I2_dlbj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckai
+Sorting      I1_ciak -> I1_ckai
+Contracting  X1_bjck * I1_ckai -> X0_bjai
+dgemm
+Deallocating I1_ckai
+Deallocating X1_bjck
+
+Finalizing eT function with total sort cost:
+3000000
+best_score = 5000000
+best_score = 4000000
+Total number of checked permutations: 64
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ldaj
+Sorting      I2_lajd -> I2_ldaj
+Allocating   I3_ckld
+Sorting      I3_cldk -> I3_ckld
+Allocating   X1_ajck
+Contracting  I2_ldaj * I3_ckld -> X1_ajck
+dgemm
+Deallocating I2_ldaj
+Deallocating I3_ckld
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbi
+Sorting      I1_cibk -> I1_ckbi
+Allocating   X0_biaj
+Contracting  I1_ckbi * X1_ajck -> X0_biaj
+dgemm
+Deallocating I1_ckbi
+Deallocating X1_ajck
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+4000000
+best_score = 5000000
+best_score = 4000000
+Total number of checked permutations: 64
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ldbi
+Sorting      I2_lbid -> I2_ldbi
+Allocating   I3_ckld
+Sorting      I3_cldk -> I3_ckld
+Allocating   X1_bick
+Contracting  I2_ldbi * I3_ckld -> X1_bick
+dgemm
+Deallocating I2_ldbi
+Deallocating I3_ckld
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckja
+Sorting      I1_cjak -> I1_ckja
+Allocating   X0_bija
+Contracting  X1_bick * I1_ckja -> X0_bija
+dgemm
+Deallocating I1_ckja
+Deallocating X1_bick
+
+Sorting      X0_bija -> X0_bjai
+Deallocating X0_bija
+Finalizing eT function with total sort cost:
+4000000
+best_score = 5000000
+best_score = 3000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_dlai
+Sorting      I2_laid -> I2_dlai
+Allocating   X1_aick
+Contracting  I2_dlai * I3_ckdl -> X1_aick
+dgemm
+Deallocating I2_dlai
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbj
+Sorting      I1_cjbk -> I1_ckbj
+Contracting  I1_ckbj * X1_aick -> X0_bjai
+dgemm
+Deallocating I1_ckbj
+Deallocating X1_aick
+
+Finalizing eT function with total sort cost:
+3000000
+best_score = 5000000
+Total number of checked permutations: 64
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ijcd
+Sorting      I2_icjd -> I2_ijcd
+Allocating   I3_cdkl
+Sorting      I3_ckdl -> I3_cdkl
+Allocating   X1_ijkl
+Contracting  I2_ijcd * I3_cdkl -> X1_ijkl
+dgemm
+Deallocating I2_ijcd
+Deallocating I3_cdkl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_abkl
+Sorting      I1_akbl -> I1_abkl
+Allocating   X0_ijab
+Contracting  X1_ijkl * I1_abkl -> X0_ijab
+dgemm
+Deallocating X1_ijkl
+Deallocating I1_abkl
+
+Sorting      X0_ijab -> X0_bjai
+Deallocating X0_ijab
+Finalizing eT function with total sort cost:
+5000000
+best_score = 2000000
+best_score = 1000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_il
+Contracting  I1_ckdi * I3_ckdl -> X1_il
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_lbja
+Sorting      I2_lajb -> I2_lbja
+Contracting  I2_lbja * X1_il -> X0_bjai
+dgemm
+Deallocating X1_il
+Deallocating I2_lbja
+
+Finalizing eT function with total sort cost:
+1000000
+best_score = 2000000
+best_score = 1000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_jl
+Contracting  I1_ckdj * I3_ckdl -> X1_jl
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_biaj
+Contracting  I2_lbia * X1_jl -> X0_biaj
+dgemm
+Deallocating X1_jl
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+1000000
+best_score = 5000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckla
+Sorting      I1_ckal -> I1_ckla
+Allocating   I3_ckld
+Sorting      I3_ckdl -> I3_ckld
+Allocating   X1_ad
+Contracting  I1_ckla * I3_ckld -> X1_ad
+dgemm
+Deallocating I1_ckla
+Deallocating I3_ckld
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ijbd
+Sorting      I2_idjb -> I2_ijbd
+Allocating   X0_aijb
+Contracting  X1_ad * I2_ijbd -> X0_aijb
+dgemm
+Deallocating X1_ad
+Deallocating I2_ijbd
+
+Sorting      X0_aijb -> X0_bjai
+Deallocating X0_aijb
+Finalizing eT function with total sort cost:
+5000000
+best_score = 3000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_cklb
+Sorting      I1_ckbl -> I1_cklb
+Allocating   I3_ckld
+Sorting      I3_ckdl -> I3_ckld
+Allocating   X1_bd
+Contracting  I1_cklb * I3_ckld -> X1_bd
+dgemm
+Deallocating I1_cklb
+Deallocating I3_ckld
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_biaj
+Contracting  X1_bd * I2_iajd -> X0_biaj
+dgemm
+Deallocating X1_bd
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+3000000
+best_score = 5000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_dlbj
+Sorting      I2_ldjb -> I2_dlbj
+Allocating   X1_bjck
+Contracting  I2_dlbj * I3_ckdl -> X1_bjck
+dgemm
+Deallocating I2_dlbj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckai
+Sorting      I1_ciak -> I1_ckai
+Contracting  X1_bjck * I1_ckai -> X0_bjai
+dgemm
+Deallocating I1_ckai
+Deallocating X1_bjck
+
+Finalizing eT function with total sort cost:
+3000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_ckdl
+Sorting      I3_cldk -> I3_ckdl
+Allocating   X1_ac
+Contracting  I2_kdla * I3_ckdl -> X1_ac
+dgemm
+Deallocating I3_ckdl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_aibj
+Contracting  X1_ac * I1_cibj -> X0_aibj
+dgemm
+Deallocating X1_ac
+
+Sorting      X0_aibj -> X0_bjai
+Deallocating X0_aibj
+Finalizing eT function with total sort cost:
+3000000
+best_score = 2000000
+best_score = 1000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_ckdl
+Sorting      I3_cldk -> I3_ckdl
+Allocating   X1_bc
+Contracting  I2_kdlb * I3_ckdl -> X1_bc
+dgemm
+Deallocating I3_ckdl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  X1_bc * I1_cjai -> X0_bjai
+dgemm
+Deallocating X1_bc
+
+Finalizing eT function with total sort cost:
+1000000
+best_score = 5000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_ckld
+Sorting      I3_ckdl -> I3_ckld
+Allocating   X1_iack
+Contracting  I2_ldia * I3_ckld -> X1_iack
+dgemm
+Deallocating I3_ckld
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbj
+Sorting      I1_cjbk -> I1_ckbj
+Allocating   X0_bjia
+Contracting  I1_ckbj * X1_iack -> X0_bjia
+dgemm
+Deallocating I1_ckbj
+Deallocating X1_iack
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+3000000
+best_score = 5000000
+best_score = 4000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_cldi
+Sorting      I2_lcid -> I2_cldi
+Allocating   X1_ik
+Contracting  I2_cldi * I3_cldk -> X1_ik
+dgemm
+Deallocating I2_cldi
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bjak
+Sorting      I1_akbj -> I1_bjak
+Contracting  I1_bjak * X1_ik -> X0_bjai
+dgemm
+Deallocating X1_ik
+Deallocating I1_bjak
+
+Finalizing eT function with total sort cost:
+4000000
+best_score = 4000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_cldj
+Sorting      I2_lcjd -> I2_cldj
+Allocating   X1_jk
+Contracting  I2_cldj * I3_cldk -> X1_jk
+dgemm
+Deallocating I2_cldj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_jaib
+Contracting  X1_jk * I1_aibk -> X0_jaib
+dgemm
+Deallocating X1_jk
+
+Sorting      X0_jaib -> X0_bjai
+Deallocating X0_jaib
+Finalizing eT function with total sort cost:
+4000000
+   subroutine jacobian_p_ccsd_mixed_doubles_9_p_ccsd(wf, sigma_aibi, F_vv, c2_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_v), intent(in) :: F_vv
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'N', &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         wf%n_v, &
+         two, &
+         F_vv, &
+         wf%n_v, &
+         c2_vovo, &
+         wf%n_v, &
+         zero, &
+         X1, &
+         wf%n_v)
+!
+      call add_3412_to_1234(one, X1, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_9_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_10_p_ccsd(wf, sigma_aibi, F_vv, c2_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_v), intent(in) :: F_vv
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+!
+      call dgemm('T', 'N', &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         wf%n_v, &
+         two, &
+         F_vv, &
+         wf%n_v, &
+         c2_vovo, &
+         wf%n_v, &
+         one, &
+         sigma_aibi, &
+         wf%n_v)
+!
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_10_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_11_p_ccsd(wf, sigma_aibi, F_oo, c2_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_o), intent(in) :: F_oo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_3412(c2_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('N', 'T', &
+         wf%n_v**2*wf%n_o, &
+         wf%n_o, &
+         wf%n_o, &
+         -two, &
+         X1, &
+         wf%n_v**2*wf%n_o, &
+         F_oo, &
+         wf%n_o, &
+         one, &
+         sigma_aibi, &
+         wf%n_v**2*wf%n_o)
+!
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_11_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_12_p_ccsd(wf, sigma_aibi, F_oo, c2_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_o), intent(in) :: F_oo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+!
+      call dgemm('N', 'T', &
+         wf%n_o, &
+         wf%n_v**2*wf%n_o, &
+         wf%n_o, &
+         -two, &
+         F_oo, &
+         wf%n_o, &
+         c2_vovo, &
+         wf%n_v**2*wf%n_o, &
+         zero, &
+         X1, &
+         wf%n_o)
+!
+      call add_2341_to_1234(one, X1, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_12_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_13_p_ccsd(wf, sigma_aibi, c2_vovo, g_IIvv)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_v), intent(in) :: g_IIvv
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'N', &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         wf%n_v, &
+         -two, &
+         g_IIvv, &
+         wf%n_v, &
+         c2_vovo, &
+         wf%n_v, &
+         zero, &
+         X1, &
+         wf%n_v)
+!
+      call add_3412_to_1234(one, X1, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_13_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_14_p_ccsd(wf, sigma_aibi, c2_vovo, g_IIvv)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_v), intent(in) :: g_IIvv
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+!
+      call dgemm('T', 'N', &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         wf%n_v, &
+         -two, &
+         g_IIvv, &
+         wf%n_v, &
+         c2_vovo, &
+         wf%n_v, &
+         one, &
+         sigma_aibi, &
+         wf%n_v)
+!
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_14_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_15_p_ccsd(wf, sigma_aibi, c2_vovo, g_IIoo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_o), intent(in) :: g_IIoo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_3412(c2_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('N', 'T', &
+         wf%n_v**2*wf%n_o, &
+         wf%n_o, &
+         wf%n_o, &
+         two, &
+         X1, &
+         wf%n_v**2*wf%n_o, &
+         g_IIoo, &
+         wf%n_o, &
+         one, &
+         sigma_aibi, &
+         wf%n_v**2*wf%n_o)
+!
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_15_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_16_p_ccsd(wf, sigma_aibi, c2_vovo, g_IIoo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_o), intent(in) :: g_IIoo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+!
+      call dgemm('N', 'T', &
+         wf%n_o, &
+         wf%n_v**2*wf%n_o, &
+         wf%n_o, &
+         two, &
+         g_IIoo, &
+         wf%n_o, &
+         c2_vovo, &
+         wf%n_v**2*wf%n_o, &
+         zero, &
+         X1, &
+         wf%n_o)
+!
+      call add_2341_to_1234(one, X1, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_16_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_17_p_ccsd(wf, sigma_aibi, L_voov, c2_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_o,wf%n_v), intent(in) :: L_voov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+!
+      call dgemm('T', 'N', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         two, &
+         c2_vovo, &
+         wf%n_v*wf%n_o, &
+         L_voov, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X1, &
+         wf%n_v*wf%n_o)
+!
+      call add_1243_to_1234(one, X1, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_17_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_18_p_ccsd(wf, sigma_aibi, L_voov, c2_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_o,wf%n_v), intent(in) :: L_voov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1243(L_voov, X1, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+!
+      call dgemm('T', 'N', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         two, &
+         X1, &
+         wf%n_v*wf%n_o, &
+         c2_vovo, &
+         wf%n_v*wf%n_o, &
+         one, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_18_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_19_p_ccsd(wf, sigma_aibi, c2_vovo, g_vvvv)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+      real(dp), dimension(wf%n_v,wf%n_v,wf%n_v,wf%n_v), intent(in) :: g_vvvv
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X3
+!
+      call mem%alloc(X1, wf%n_v, wf%n_v, wf%n_o, wf%n_o)
+      call sort_to_1324(c2_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_v, wf%n_v, wf%n_v)
+      call sort_to_1342(g_vvvv, X2, wf%n_v, wf%n_v, wf%n_v, wf%n_v)
+      call mem%alloc(X3, wf%n_v, wf%n_v, wf%n_o, wf%n_o)
+!
+      call dgemm('T', 'N', &
+         wf%n_v**2, &
+         wf%n_o**2, &
+         wf%n_v**2, &
+         two, &
+         X2, &
+         wf%n_v**2, &
+         X1, &
+         wf%n_v**2, &
+         zero, &
+         X3, &
+         wf%n_v**2)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+      call add_1342_to_1234(one, X3, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_19_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_20_p_ccsd(wf, sigma_aibi, c2_vovo, g_voov)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_o,wf%n_v), intent(in) :: g_voov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1432(c2_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1243(g_voov, X2, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+!
+      call dgemm('T', 'N', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         -two, &
+         X2, &
+         wf%n_v*wf%n_o, &
+         X1, &
+         wf%n_v*wf%n_o, &
+         one, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_20_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_21_p_ccsd(wf, sigma_aibi, c2_vovo, g_vvoo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+      real(dp), dimension(wf%n_v,wf%n_v,wf%n_o,wf%n_o), intent(in) :: g_vvoo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X3
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1432(c2_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1423(g_vvoo, X2, wf%n_v, wf%n_v, wf%n_o, wf%n_o)
+      call mem%alloc(X3, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'N', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         -two, &
+         X1, &
+         wf%n_v*wf%n_o, &
+         X2, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X3, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+      call add_1432_to_1234(one, X3, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_21_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_22_p_ccsd(wf, sigma_aibi, c2_vovo, g_vvoo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+      real(dp), dimension(wf%n_v,wf%n_v,wf%n_o,wf%n_o), intent(in) :: g_vvoo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X3
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+      call sort_to_1423(c2_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1423(g_vvoo, X2, wf%n_v, wf%n_v, wf%n_o, wf%n_o)
+      call mem%alloc(X3, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+!
+      call dgemm('T', 'N', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         -two, &
+         X2, &
+         wf%n_v*wf%n_o, &
+         X1, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X3, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+      call add_1423_to_1234(one, X3, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_22_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_23_p_ccsd(wf, sigma_aibi, c2_vovo, g_voov)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_o,wf%n_v), intent(in) :: g_voov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1432(c2_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+!
+      call dgemm('T', 'N', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         -two, &
+         X1, &
+         wf%n_v*wf%n_o, &
+         g_voov, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X2, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call add_1243_to_1234(one, X2, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_23_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_24_p_ccsd(wf, sigma_aibi, c2_vovo, g_oooo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_o,wf%n_o,wf%n_o), intent(in) :: g_oooo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X3
+!
+      call mem%alloc(X1, wf%n_o, wf%n_o, wf%n_o, wf%n_o)
+      call sort_to_1324(g_oooo, X1, wf%n_o, wf%n_o, wf%n_o, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_v, wf%n_o, wf%n_o)
+      call sort_to_1324(c2_vovo, X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X3, wf%n_o, wf%n_o, wf%n_v, wf%n_v)
+!
+      call dgemm('N', 'T', &
+         wf%n_o**2, &
+         wf%n_v**2, &
+         wf%n_o**2, &
+         two, &
+         X1, &
+         wf%n_o**2, &
+         X2, &
+         wf%n_v**2, &
+         zero, &
+         X3, &
+         wf%n_o**2)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+      call add_4231_to_1234(one, X3, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_24_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_25_p_ccsd(wf, sigma_aibi, c2_vovo, g_IVov, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IVov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: s_VIvo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X1, X2
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o)
+!
+      call dgemv('T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         -four, &
+         c2_vovo, &
+         wf%n_v*wf%n_o, &
+         s_VIvo, 1, &
+         zero, &
+         X1, 1)
+!
+      call mem%alloc(X2, wf%n_v, wf%n_o)
+      call sort_to_21(g_IVov, X2, wf%n_o, wf%n_v)
+!
+      call dger(wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         X2, 1, &
+         X1, 1, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_25_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_26_p_ccsd(wf, sigma_aibi, c2_vovo, g_IVov, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IVov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: s_VIvo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X1, X2
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o)
+!
+      call dgemv('T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         -four, &
+         c2_vovo, &
+         wf%n_v*wf%n_o, &
+         s_VIvo, 1, &
+         zero, &
+         X1, 1)
+!
+      call mem%alloc(X2, wf%n_v, wf%n_o)
+      call sort_to_21(g_IVov, X2, wf%n_o, wf%n_v)
+!
+      call dger(wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         X1, 1, &
+         X2, 1, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_26_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_27_p_ccsd(wf, sigma_aibi, c2_vovo, g_IVov, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IVov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: s_VIvo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X2, X3
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1432(c2_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_o)
+!
+      call dgemv('T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         two, &
+         X1, &
+         wf%n_v*wf%n_o, &
+         s_VIvo, 1, &
+         zero, &
+         X2, 1)
+!
+      call mem%dealloc(X1)
+      call mem%alloc(X3, wf%n_v, wf%n_o)
+      call sort_to_21(g_IVov, X3, wf%n_o, wf%n_v)
+!
+      call dger(wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         X3, 1, &
+         X2, 1, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X2)
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_27_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_28_p_ccsd(wf, sigma_aibi, c2_vovo, g_IVov, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IVov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: s_VIvo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X1
+      real(dp), dimension(:,:,:,:), allocatable :: X2
+!
+      call mem%alloc(X1, wf%n_v, wf%n_v)
+!
+      call dgemm('T', 'T', &
+         wf%n_v, &
+         wf%n_v, &
+         wf%n_o, &
+         two, &
+         g_IVov, &
+         wf%n_o, &
+         s_VIvo, &
+         wf%n_v, &
+         zero, &
+         X1, &
+         wf%n_v)
+!
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('N', 'N', &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         wf%n_v, &
+         one, &
+         X1, &
+         wf%n_v, &
+         c2_vovo, &
+         wf%n_v, &
+         zero, &
+         X2, &
+         wf%n_v)
+!
+      call mem%dealloc(X1)
+      call add_3412_to_1234(one, X2, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_28_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_29_p_ccsd(wf, sigma_aibi, c2_vovo, g_IVov, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IVov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: s_VIvo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_v)
+!
+      call dgemm('T', 'T', &
+         wf%n_v, &
+         wf%n_v, &
+         wf%n_o, &
+         two, &
+         g_IVov, &
+         wf%n_o, &
+         s_VIvo, &
+         wf%n_v, &
+         zero, &
+         X1, &
+         wf%n_v)
+!
+!
+      call dgemm('N', 'N', &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         wf%n_v, &
+         one, &
+         X1, &
+         wf%n_v, &
+         c2_vovo, &
+         wf%n_v, &
+         one, &
+         sigma_aibi, &
+         wf%n_v)
+!
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_29_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_30_p_ccsd(wf, sigma_aibi, c2_vovo, g_IVov, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IVov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: s_VIvo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X2, X3
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1432(c2_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_o)
+!
+      call dgemv('T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         two, &
+         X1, &
+         wf%n_v*wf%n_o, &
+         s_VIvo, 1, &
+         zero, &
+         X2, 1)
+!
+      call mem%dealloc(X1)
+      call mem%alloc(X3, wf%n_v, wf%n_o)
+      call sort_to_21(g_IVov, X3, wf%n_o, wf%n_v)
+!
+      call dger(wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         X2, 1, &
+         X3, 1, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X2)
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_30_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_31_p_ccsd(wf, sigma_aibi, c2_vovo, g_IVov, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IVov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: s_VIvo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X1
+      real(dp), dimension(:,:,:,:), allocatable :: X2
+!
+      call mem%alloc(X1, wf%n_o, wf%n_o)
+!
+      call dgemm('N', 'N', &
+         wf%n_o, &
+         wf%n_o, &
+         wf%n_v, &
+         two, &
+         g_IVov, &
+         wf%n_o, &
+         s_VIvo, &
+         wf%n_v, &
+         zero, &
+         X1, &
+         wf%n_o)
+!
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_3412(c2_vovo, X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('N', 'T', &
+         wf%n_v**2*wf%n_o, &
+         wf%n_o, &
+         wf%n_o, &
+         one, &
+         X2, &
+         wf%n_v**2*wf%n_o, &
+         X1, &
+         wf%n_o, &
+         one, &
+         sigma_aibi, &
+         wf%n_v**2*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_31_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_32_p_ccsd(wf, sigma_aibi, c2_vovo, g_IVov, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IVov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: s_VIvo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X1
+      real(dp), dimension(:,:,:,:), allocatable :: X2
+!
+      call mem%alloc(X1, wf%n_o, wf%n_o)
+!
+      call dgemm('N', 'N', &
+         wf%n_o, &
+         wf%n_o, &
+         wf%n_v, &
+         two, &
+         g_IVov, &
+         wf%n_o, &
+         s_VIvo, &
+         wf%n_v, &
+         zero, &
+         X1, &
+         wf%n_o)
+!
+      call mem%alloc(X2, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+!
+      call dgemm('N', 'T', &
+         wf%n_o, &
+         wf%n_v**2*wf%n_o, &
+         wf%n_o, &
+         one, &
+         X1, &
+         wf%n_o, &
+         c2_vovo, &
+         wf%n_v**2*wf%n_o, &
+         zero, &
+         X2, &
+         wf%n_o)
+!
+      call mem%dealloc(X1)
+      call add_2341_to_1234(one, X2, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_32_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_33_p_ccsd(wf, sigma_aibi, L_ovov, c2_vovo, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: L_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, u_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X3
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         two, &
+         c2_vovo, &
+         wf%n_v*wf%n_o, &
+         u_vovo, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X1, &
+         wf%n_v*wf%n_o)
+!
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+      call sort_to_1243(X1, X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X1)
+      call mem%alloc(X3, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+!
+      call dgemm('N', 'N', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         X2, &
+         wf%n_v*wf%n_o, &
+         L_ovov, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X3, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X2)
+      call add_1243_to_1234(one, X3, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_33_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_34_p_ccsd(wf, sigma_aibi, L_ovov, c2_vovo, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: L_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, u_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         two, &
+         c2_vovo, &
+         wf%n_v*wf%n_o, &
+         u_vovo, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X1, &
+         wf%n_v*wf%n_o)
+!
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_2143(L_ovov, X2, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+!
+      call dgemm('T', 'T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         X2, &
+         wf%n_v*wf%n_o, &
+         X1, &
+         wf%n_v*wf%n_o, &
+         one, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X2)
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_34_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_35_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, t_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, t_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X3, X4, X5
+!
+      call mem%alloc(X1, wf%n_v, wf%n_v, wf%n_o, wf%n_o)
+      call sort_to_1324(c2_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_v, wf%n_o, wf%n_o)
+      call sort_to_1324(t_vovo, X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X3, wf%n_o, wf%n_o, wf%n_o, wf%n_o)
+!
+      call dgemm('T', 'N', &
+         wf%n_o**2, &
+         wf%n_o**2, &
+         wf%n_v**2, &
+         two, &
+         X1, &
+         wf%n_v**2, &
+         X2, &
+         wf%n_v**2, &
+         zero, &
+         X3, &
+         wf%n_o**2)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+      call mem%alloc(X4, wf%n_o, wf%n_o, wf%n_v, wf%n_v)
+      call sort_to_1342(g_ovov, X4, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call mem%alloc(X5, wf%n_v, wf%n_v, wf%n_o, wf%n_o)
+!
+      call dgemm('T', 'T', &
+         wf%n_v**2, &
+         wf%n_o**2, &
+         wf%n_o**2, &
+         one, &
+         X4, &
+         wf%n_o**2, &
+         X3, &
+         wf%n_o**2, &
+         zero, &
+         X5, &
+         wf%n_v**2)
+!
+      call mem%dealloc(X3)
+      call mem%dealloc(X4)
+      call add_1342_to_1234(one, X5, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X5)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_35_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_36_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, t_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, t_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X3
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_4123(g_ovov, X1, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         two, &
+         X1, &
+         wf%n_v*wf%n_o, &
+         t_vovo, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X2, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%alloc(X3, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1432(c2_vovo, X3, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('N', 'N', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         X2, &
+         wf%n_v*wf%n_o, &
+         X3, &
+         wf%n_v*wf%n_o, &
+         one, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X3)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_36_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_37_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, t_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, t_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X3, X4, X5
+!
+      call mem%alloc(X1, wf%n_o, wf%n_v, wf%n_v, wf%n_o)
+      call sort_to_1423(g_ovov, X1, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+      call sort_to_1423(t_vovo, X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X3, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         two, &
+         X1, &
+         wf%n_v*wf%n_o, &
+         X2, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X3, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+      call mem%alloc(X4, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1432(c2_vovo, X4, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X5, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         X4, &
+         wf%n_v*wf%n_o, &
+         X3, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X5, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X4)
+      call mem%dealloc(X3)
+      call add_1432_to_1234(one, X5, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X5)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_37_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_38_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, t_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, t_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X3, X4, X5
+!
+      call mem%alloc(X1, wf%n_o, wf%n_v, wf%n_v, wf%n_o)
+      call sort_to_1423(g_ovov, X1, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+      call sort_to_1423(t_vovo, X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X3, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         two, &
+         X1, &
+         wf%n_v*wf%n_o, &
+         X2, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X3, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+      call mem%alloc(X4, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+      call sort_to_1423(c2_vovo, X4, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X5, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+!
+      call dgemm('N', 'N', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         X3, &
+         wf%n_v*wf%n_o, &
+         X4, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X5, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X4)
+      call mem%dealloc(X3)
+      call add_1423_to_1234(one, X5, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X5)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_38_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_39_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, t_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, t_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X3
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_4123(g_ovov, X1, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         two, &
+         X1, &
+         wf%n_v*wf%n_o, &
+         t_vovo, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X2, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%alloc(X3, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1432(c2_vovo, X3, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         X3, &
+         wf%n_v*wf%n_o, &
+         X2, &
+         wf%n_v*wf%n_o, &
+         one, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X3)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_39_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_40_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, t_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, t_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X3, X4, X5
+!
+      call mem%alloc(X1, wf%n_o, wf%n_o, wf%n_v, wf%n_v)
+      call sort_to_1324(g_ovov, X1, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call mem%alloc(X2, wf%n_v, wf%n_v, wf%n_o, wf%n_o)
+      call sort_to_1324(t_vovo, X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X3, wf%n_o, wf%n_o, wf%n_o, wf%n_o)
+!
+      call dgemm('N', 'N', &
+         wf%n_o**2, &
+         wf%n_o**2, &
+         wf%n_v**2, &
+         two, &
+         X1, &
+         wf%n_o**2, &
+         X2, &
+         wf%n_v**2, &
+         zero, &
+         X3, &
+         wf%n_o**2)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+      call mem%alloc(X4, wf%n_v, wf%n_v, wf%n_o, wf%n_o)
+      call sort_to_1324(c2_vovo, X4, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X5, wf%n_o, wf%n_o, wf%n_v, wf%n_v)
+!
+      call dgemm('N', 'T', &
+         wf%n_o**2, &
+         wf%n_v**2, &
+         wf%n_o**2, &
+         one, &
+         X3, &
+         wf%n_o**2, &
+         X4, &
+         wf%n_v**2, &
+         zero, &
+         X5, &
+         wf%n_o**2)
+!
+      call mem%dealloc(X3)
+      call mem%dealloc(X4)
+      call add_4231_to_1234(one, X5, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X5)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_40_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_41_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, u_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X1
+      real(dp), dimension(:,:,:,:), allocatable :: X2
+!
+      call mem%alloc(X1, wf%n_o, wf%n_o)
+!
+      call dgemm('T', 'N', &
+         wf%n_o, &
+         wf%n_o, &
+         wf%n_v**2*wf%n_o, &
+         -two, &
+         c2_vovo, &
+         wf%n_v**2*wf%n_o, &
+         u_vovo, &
+         wf%n_v**2*wf%n_o, &
+         zero, &
+         X1, &
+         wf%n_o)
+!
+      call mem%alloc(X2, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call sort_to_1432(g_ovov, X2, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+!
+      call dgemm('T', 'T', &
+         wf%n_v**2*wf%n_o, &
+         wf%n_o, &
+         wf%n_o, &
+         one, &
+         X2, &
+         wf%n_o, &
+         X1, &
+         wf%n_o, &
+         one, &
+         sigma_aibi, &
+         wf%n_v**2*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_41_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_42_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, u_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X1
+      real(dp), dimension(:,:,:,:), allocatable :: X2
+!
+      call mem%alloc(X1, wf%n_o, wf%n_o)
+!
+      call dgemm('T', 'N', &
+         wf%n_o, &
+         wf%n_o, &
+         wf%n_v**2*wf%n_o, &
+         -two, &
+         c2_vovo, &
+         wf%n_v**2*wf%n_o, &
+         u_vovo, &
+         wf%n_v**2*wf%n_o, &
+         zero, &
+         X1, &
+         wf%n_o)
+!
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'T', &
+         wf%n_v**2*wf%n_o, &
+         wf%n_o, &
+         wf%n_o, &
+         one, &
+         g_ovov, &
+         wf%n_o, &
+         X1, &
+         wf%n_o, &
+         zero, &
+         X2, &
+         wf%n_v**2*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call add_1432_to_1234(one, X2, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_42_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_43_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, u_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X3
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X4, X5
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+      call sort_to_1243(c2_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+      call sort_to_1243(u_vovo, X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X3, wf%n_v, wf%n_v)
+!
+      call dgemm('T', 'N', &
+         wf%n_v, &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         -two, &
+         X1, &
+         wf%n_v*wf%n_o**2, &
+         X2, &
+         wf%n_v*wf%n_o**2, &
+         zero, &
+         X3, &
+         wf%n_v)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+      call mem%alloc(X4, wf%n_o, wf%n_o, wf%n_v, wf%n_v)
+      call sort_to_1342(g_ovov, X4, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call mem%alloc(X5, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+!
+      call dgemm('N', 'T', &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         wf%n_v, &
+         one, &
+         X3, &
+         wf%n_v, &
+         X4, &
+         wf%n_v*wf%n_o**2, &
+         zero, &
+         X5, &
+         wf%n_v)
+!
+      call mem%dealloc(X3)
+      call mem%dealloc(X4)
+      call add_3421_to_1234(one, X5, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X5)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_43_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_44_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, u_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X3
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X4
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+      call sort_to_1243(c2_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+      call sort_to_1243(u_vovo, X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X3, wf%n_v, wf%n_v)
+!
+      call dgemm('T', 'N', &
+         wf%n_v, &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         -two, &
+         X1, &
+         wf%n_v*wf%n_o**2, &
+         X2, &
+         wf%n_v*wf%n_o**2, &
+         zero, &
+         X3, &
+         wf%n_v)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+      call mem%alloc(X4, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('N', 'T', &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         wf%n_v, &
+         one, &
+         X3, &
+         wf%n_v, &
+         g_ovov, &
+         wf%n_v*wf%n_o**2, &
+         zero, &
+         X4, &
+         wf%n_v)
+!
+      call mem%dealloc(X3)
+      call add_1432_to_1234(one, X4, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X4)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_44_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_45_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, u_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X3
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_2143(g_ovov, X1, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         -two, &
+         X1, &
+         wf%n_v*wf%n_o, &
+         u_vovo, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X2, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%alloc(X3, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1432(c2_vovo, X3, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('N', 'N', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         X2, &
+         wf%n_v*wf%n_o, &
+         X3, &
+         wf%n_v*wf%n_o, &
+         one, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X3)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_45_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_46_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, u_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X2
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X3
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1432(u_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_v)
+!
+      call dgemm('T', 'T', &
+         wf%n_v, &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         -two, &
+         g_ovov, &
+         wf%n_v*wf%n_o**2, &
+         X1, &
+         wf%n_v, &
+         zero, &
+         X2, &
+         wf%n_v)
+!
+      call mem%dealloc(X1)
+      call mem%alloc(X3, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('N', 'N', &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         wf%n_v, &
+         one, &
+         X2, &
+         wf%n_v, &
+         c2_vovo, &
+         wf%n_v, &
+         zero, &
+         X3, &
+         wf%n_v)
+!
+      call mem%dealloc(X2)
+      call add_3412_to_1234(one, X3, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_46_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_47_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, u_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X2
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1432(u_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_v)
+!
+      call dgemm('T', 'T', &
+         wf%n_v, &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         -two, &
+         g_ovov, &
+         wf%n_v*wf%n_o**2, &
+         X1, &
+         wf%n_v, &
+         zero, &
+         X2, &
+         wf%n_v)
+!
+      call mem%dealloc(X1)
+!
+      call dgemm('N', 'N', &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         wf%n_v, &
+         one, &
+         X2, &
+         wf%n_v, &
+         c2_vovo, &
+         wf%n_v, &
+         one, &
+         sigma_aibi, &
+         wf%n_v)
+!
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_47_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_48_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, u_vovo
+!
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2, X3, X4
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+      call sort_to_1243(u_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_o, wf%n_v, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         -two, &
+         g_ovov, &
+         wf%n_v*wf%n_o, &
+         X1, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X2, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%alloc(X3, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_1432(c2_vovo, X3, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X4, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+!
+      call dgemm('T', 'T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         X3, &
+         wf%n_v*wf%n_o, &
+         X2, &
+         wf%n_v*wf%n_o, &
+         zero, &
+         X4, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X3)
+      call mem%dealloc(X2)
+      call add_1243_to_1234(one, X4, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X4)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_48_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_49_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, u_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X2
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X3
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_2143(g_ovov, X1, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call mem%alloc(X2, wf%n_o, wf%n_o)
+!
+      call dgemm('T', 'N', &
+         wf%n_o, &
+         wf%n_o, &
+         wf%n_v**2*wf%n_o, &
+         -two, &
+         X1, &
+         wf%n_v**2*wf%n_o, &
+         u_vovo, &
+         wf%n_v**2*wf%n_o, &
+         zero, &
+         X2, &
+         wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%alloc(X3, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_3412(c2_vovo, X3, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('N', 'T', &
+         wf%n_v**2*wf%n_o, &
+         wf%n_o, &
+         wf%n_o, &
+         one, &
+         X3, &
+         wf%n_v**2*wf%n_o, &
+         X2, &
+         wf%n_o, &
+         one, &
+         sigma_aibi, &
+         wf%n_v**2*wf%n_o)
+!
+      call mem%dealloc(X2)
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_49_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_50_p_ccsd(wf, sigma_aibi, c2_vovo, g_ovov, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, u_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X2
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X3
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_2143(g_ovov, X1, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call mem%alloc(X2, wf%n_o, wf%n_o)
+!
+      call dgemm('T', 'N', &
+         wf%n_o, &
+         wf%n_o, &
+         wf%n_v**2*wf%n_o, &
+         -two, &
+         X1, &
+         wf%n_v**2*wf%n_o, &
+         u_vovo, &
+         wf%n_v**2*wf%n_o, &
+         zero, &
+         X2, &
+         wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%alloc(X3, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+!
+      call dgemm('N', 'T', &
+         wf%n_o, &
+         wf%n_v**2*wf%n_o, &
+         wf%n_o, &
+         one, &
+         X2, &
+         wf%n_o, &
+         c2_vovo, &
+         wf%n_v**2*wf%n_o, &
+         zero, &
+         X3, &
+         wf%n_o)
+!
+      call mem%dealloc(X2)
+      call add_2341_to_1234(one, X3, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_50_p_ccsd
+
+best_score = 2000000
+best_score = 1000000
+best_score = 2000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ai
+Sorting      I1_ia -> I1_ai
+Contracting  I2_bj * I1_ai -> X0_bjai
+dger
+Deallocating I1_ai
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 2000000
+best_score = 2000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bj
+Sorting      I1_jb -> I1_bj
+Contracting  I1_bj * I2_ai -> X0_bjai
+dger
+Deallocating I1_bj
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 2002000
+best_score = 1002000
+best_score = 4000
+Total number of checked permutations: 32
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kc
+Sorting      I3_ck -> I3_kc
+Allocating   X1_ia
+Contracting  I3_kc * I1_kcia -> X1_ia
+dgemv
+Deallocating I3_kc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ai
+Sorting      X1_ia -> X1_ai
+Deallocating X1_ia
+Contracting  I2_bj * X1_ai -> X0_bjai
+dger
+Deallocating X1_ai
+
+Finalizing eT function with total sort cost:
+4000
+best_score = 2002000
+best_score = 1002000
+best_score = 4000
+Total number of checked permutations: 32
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kc
+Sorting      I3_ck -> I3_kc
+Allocating   X1_jb
+Contracting  I3_kc * I1_kcjb -> X1_jb
+dgemv
+Deallocating I3_kc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bj
+Sorting      X1_jb -> X1_bj
+Deallocating X1_jb
+Contracting  X1_bj * I2_ai -> X0_bjai
+dger
+Deallocating X1_bj
+
+Finalizing eT function with total sort cost:
+4000
+best_score = 2000000
+best_score = 1000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ik
+Contracting  I2_ci * I3_ck -> X1_ik
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_kbja
+Sorting      I1_kajb -> I1_kbja
+Contracting  I1_kbja * X1_ik -> X0_bjai
+dgemm
+Deallocating X1_ik
+Deallocating I1_kbja
+
+Finalizing eT function with total sort cost:
+1000000
+best_score = 2000000
+best_score = 1000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_jk
+Contracting  I2_cj * I3_ck -> X1_jk
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_biaj
+Contracting  I1_kbia * X1_jk -> X0_biaj
+dgemm
+Deallocating X1_jk
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+1000000
+best_score = 3000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ac
+Contracting  I2_ak * I3_ck -> X1_ac
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ijbc
+Sorting      I1_icjb -> I1_ijbc
+Allocating   X0_aijb
+Contracting  X1_ac * I1_ijbc -> X0_aijb
+dgemm
+Deallocating X1_ac
+Deallocating I1_ijbc
+
+Sorting      X0_aijb -> X0_bjai
+Deallocating X0_aijb
+Finalizing eT function with total sort cost:
+3000000
+best_score = 1000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bc
+Contracting  I2_bk * I3_ck -> X1_bc
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_biaj
+Contracting  X1_bc * I1_iajc -> X0_biaj
+dgemm
+Deallocating X1_bc
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+1000000
+   subroutine jacobian_p_ccsd_mixed_doubles_51_p_ccsd(wf, sigma_aibi, g_VIov, p_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_VIov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_VIvo
+!
+      real(dp), dimension(:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o)
+      call sort_to_21(g_VIov, X1, wf%n_o, wf%n_v)
+!
+      call dger(wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         -one, &
+         p_VIvo, 1, &
+         X1, 1, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_51_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_52_p_ccsd(wf, sigma_aibi, g_VIov, p_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_VIov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_VIvo
+!
+      real(dp), dimension(:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o)
+      call sort_to_21(g_VIov, X1, wf%n_o, wf%n_v)
+!
+      call dger(wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         -one, &
+         X1, 1, &
+         p_VIvo, 1, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_52_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_53_p_ccsd(wf, sigma_aibi, L_ovov, p_VIvo, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_VIvo, s_VIvo
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: L_ovov
+!
+      real(dp), dimension(:,:), allocatable :: X1, X2, X3
+!
+      call mem%alloc(X1, wf%n_o, wf%n_v)
+      call sort_to_21(s_VIvo, X1, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_o, wf%n_v)
+!
+      call dgemv('T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         L_ovov, &
+         wf%n_v*wf%n_o, &
+         X1, 1, &
+         zero, &
+         X2, 1)
+!
+      call mem%dealloc(X1)
+      call mem%alloc(X3, wf%n_v, wf%n_o)
+      call sort_to_21(X2, X3, wf%n_o, wf%n_v)
+      call mem%dealloc(X2)
+!
+      call dger(wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         p_VIvo, 1, &
+         X3, 1, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_53_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_54_p_ccsd(wf, sigma_aibi, L_ovov, p_VIvo, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_VIvo, s_VIvo
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: L_ovov
+!
+      real(dp), dimension(:,:), allocatable :: X1, X2, X3
+!
+      call mem%alloc(X1, wf%n_o, wf%n_v)
+      call sort_to_21(s_VIvo, X1, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_o, wf%n_v)
+!
+      call dgemv('T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         L_ovov, &
+         wf%n_v*wf%n_o, &
+         X1, 1, &
+         zero, &
+         X2, 1)
+!
+      call mem%dealloc(X1)
+      call mem%alloc(X3, wf%n_v, wf%n_o)
+      call sort_to_21(X2, X3, wf%n_o, wf%n_v)
+      call mem%dealloc(X2)
+!
+      call dger(wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         X3, 1, &
+         p_VIvo, 1, &
+         sigma_aibi, &
+         wf%n_v*wf%n_o)
+!
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_54_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_55_p_ccsd(wf, sigma_aibi, g_ovov, p_VIvo, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_VIvo, s_VIvo
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+!
+      real(dp), dimension(:,:), allocatable :: X1
+      real(dp), dimension(:,:,:,:), allocatable :: X2
+!
+      call mem%alloc(X1, wf%n_o, wf%n_o)
+!
+      call dgemm('T', 'N', &
+         wf%n_o, &
+         wf%n_o, &
+         wf%n_v, &
+         -one, &
+         p_VIvo, &
+         wf%n_v, &
+         s_VIvo, &
+         wf%n_v, &
+         zero, &
+         X1, &
+         wf%n_o)
+!
+      call mem%alloc(X2, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call sort_to_1432(g_ovov, X2, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+!
+      call dgemm('T', 'T', &
+         wf%n_v**2*wf%n_o, &
+         wf%n_o, &
+         wf%n_o, &
+         one, &
+         X2, &
+         wf%n_o, &
+         X1, &
+         wf%n_o, &
+         one, &
+         sigma_aibi, &
+         wf%n_v**2*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_55_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_56_p_ccsd(wf, sigma_aibi, g_ovov, p_VIvo, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_VIvo, s_VIvo
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+!
+      real(dp), dimension(:,:), allocatable :: X1
+      real(dp), dimension(:,:,:,:), allocatable :: X2
+!
+      call mem%alloc(X1, wf%n_o, wf%n_o)
+!
+      call dgemm('T', 'N', &
+         wf%n_o, &
+         wf%n_o, &
+         wf%n_v, &
+         -one, &
+         p_VIvo, &
+         wf%n_v, &
+         s_VIvo, &
+         wf%n_v, &
+         zero, &
+         X1, &
+         wf%n_o)
+!
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('T', 'T', &
+         wf%n_v**2*wf%n_o, &
+         wf%n_o, &
+         wf%n_o, &
+         one, &
+         g_ovov, &
+         wf%n_o, &
+         X1, &
+         wf%n_o, &
+         zero, &
+         X2, &
+         wf%n_v**2*wf%n_o)
+!
+      call mem%dealloc(X1)
+      call add_1432_to_1234(one, X2, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_56_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_57_p_ccsd(wf, sigma_aibi, g_ovov, p_VIvo, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_VIvo, s_VIvo
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+!
+      real(dp), dimension(:,:), allocatable :: X1
+      real(dp), dimension(:,:,:,:), allocatable :: X2, X3
+!
+      call mem%alloc(X1, wf%n_v, wf%n_v)
+!
+      call dgemm('N', 'T', &
+         wf%n_v, &
+         wf%n_v, &
+         wf%n_o, &
+         -one, &
+         p_VIvo, &
+         wf%n_v, &
+         s_VIvo, &
+         wf%n_v, &
+         zero, &
+         X1, &
+         wf%n_v)
+!
+      call mem%alloc(X2, wf%n_o, wf%n_o, wf%n_v, wf%n_v)
+      call sort_to_1342(g_ovov, X2, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call mem%alloc(X3, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+!
+      call dgemm('N', 'T', &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         wf%n_v, &
+         one, &
+         X1, &
+         wf%n_v, &
+         X2, &
+         wf%n_v*wf%n_o**2, &
+         zero, &
+         X3, &
+         wf%n_v)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+      call add_3421_to_1234(one, X3, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_57_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_58_p_ccsd(wf, sigma_aibi, g_ovov, p_VIvo, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(inout) :: sigma_aibi
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_VIvo, s_VIvo
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+!
+      real(dp), dimension(:,:), allocatable :: X1
+      real(dp), dimension(:,:,:,:), allocatable :: X2
+!
+      call mem%alloc(X1, wf%n_v, wf%n_v)
+!
+      call dgemm('N', 'T', &
+         wf%n_v, &
+         wf%n_v, &
+         wf%n_o, &
+         -one, &
+         p_VIvo, &
+         wf%n_v, &
+         s_VIvo, &
+         wf%n_v, &
+         zero, &
+         X1, &
+         wf%n_v)
+!
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+!
+      call dgemm('N', 'T', &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         wf%n_v, &
+         one, &
+         X1, &
+         wf%n_v, &
+         g_ovov, &
+         wf%n_v*wf%n_o**2, &
+         zero, &
+         X2, &
+         wf%n_v)
+!
+      call mem%dealloc(X1)
+      call add_1432_to_1234(one, X2, sigma_aibi, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_58_p_ccsd
+
+best_score = 2000000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_aibj
+Contracting  I1_ca * I2_cibj -> X0_aibj
+dgemm
+
+Sorting      X0_aibj -> X0_bjai
+Deallocating X0_aibj
+Finalizing eT function with total sort cost:
+2000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjic
+Sorting      I2_bjci -> I2_bjic
+Allocating   X0_bjia
+Contracting  I2_bjic * I1_ca -> X0_bjia
+dgemm
+Deallocating I2_bjic
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+2000000
+best_score = 0
+Total number of checked permutations: 1
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I1_cb * I2_cjai -> X0_bjai
+dgemm
+
+Finalizing eT function with total sort cost:
+0
+best_score = 2000000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_aijc
+Sorting      I2_aicj -> I2_aijc
+Allocating   X0_baij
+Contracting  I1_cb * I2_aijc -> X0_baij
+dgemm
+Deallocating I2_aijc
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+2000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjak
+Sorting      I2_akbj -> I2_bjak
+Contracting  I2_bjak * I1_ik -> X0_bjai
+dgemm
+Deallocating I2_bjak
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2000000
+best_score = 0
+Total number of checked permutations: 2
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I2_bjak * I1_ik -> X0_bjai
+dgemm
+
+Finalizing eT function with total sort cost:
+0
+best_score = 2000000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_jaib
+Contracting  I1_jk * I2_aibk -> X0_jaib
+dgemm
+
+Sorting      X0_jaib -> X0_bjai
+Deallocating X0_jaib
+Finalizing eT function with total sort cost:
+2000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 12
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_baik
+Sorting      I2_bkai -> I2_baik
+Allocating   X0_baij
+Contracting  I2_baik * I1_jk -> X0_baij
+dgemm
+Deallocating I2_baik
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ca
+Contracting  I3_ck * I1_ka -> X1_ca
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_aibj
+Contracting  X1_ca * I2_cibj -> X0_aibj
+dgemm
+Deallocating X1_ca
+
+Sorting      X0_aibj -> X0_bjai
+Deallocating X0_aibj
+Finalizing eT function with total sort cost:
+2000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ca
+Contracting  I3_ck * I1_ka -> X1_ca
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjic
+Sorting      I2_bjci -> I2_bjic
+Allocating   X0_bjia
+Contracting  I2_bjic * X1_ca -> X0_bjia
+dgemm
+Deallocating X1_ca
+Deallocating I2_bjic
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+2000000
+best_score = 0
+Total number of checked permutations: 1
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_cb
+Contracting  I3_ck * I1_kb -> X1_cb
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  X1_cb * I2_cjai -> X0_bjai
+dgemm
+Deallocating X1_cb
+
+Finalizing eT function with total sort cost:
+0
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_cb
+Contracting  I3_ck * I1_kb -> X1_cb
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_aijc
+Sorting      I2_aicj -> I2_aijc
+Allocating   X0_baij
+Contracting  X1_cb * I2_aijc -> X0_baij
+dgemm
+Deallocating X1_cb
+Deallocating I2_aijc
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+2000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ik
+Contracting  I1_ic * I3_ck -> X1_ik
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjak
+Sorting      I2_akbj -> I2_bjak
+Contracting  I2_bjak * X1_ik -> X0_bjai
+dgemm
+Deallocating X1_ik
+Deallocating I2_bjak
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2000000
+best_score = 0
+Total number of checked permutations: 3
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ik
+Contracting  I1_ic * I3_ck -> X1_ik
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I2_bjak * X1_ik -> X0_bjai
+dgemm
+Deallocating X1_ik
+
+Finalizing eT function with total sort cost:
+0
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_jk
+Contracting  I1_jc * I3_ck -> X1_jk
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_jaib
+Contracting  X1_jk * I2_aibk -> X0_jaib
+dgemm
+Deallocating X1_jk
+
+Sorting      X0_jaib -> X0_bjai
+Deallocating X0_jaib
+Finalizing eT function with total sort cost:
+2000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_jk
+Contracting  I1_jc * I3_ck -> X1_jk
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_baik
+Sorting      I2_bkai -> I2_baik
+Allocating   X0_baij
+Contracting  I2_baik * X1_jk -> X0_baij
+dgemm
+Deallocating X1_jk
+Deallocating I2_baik
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2002000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kc
+Sorting      I3_ck -> I3_kc
+Allocating   X1_da
+Contracting  I3_kc * I1_kcda -> X1_da
+dgemv
+Deallocating I3_kc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_aibj
+Contracting  X1_da * I2_dibj -> X0_aibj
+dgemm
+Deallocating X1_da
+
+Sorting      X0_aibj -> X0_bjai
+Deallocating X0_aibj
+Finalizing eT function with total sort cost:
+2002000
+best_score = 3002000
+best_score = 2002000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kc
+Sorting      I3_ck -> I3_kc
+Allocating   X1_da
+Contracting  I3_kc * I1_kcda -> X1_da
+dgemv
+Deallocating I3_kc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjid
+Sorting      I2_bjdi -> I2_bjid
+Allocating   X0_bjia
+Contracting  I2_bjid * X1_da -> X0_bjia
+dgemm
+Deallocating X1_da
+Deallocating I2_bjid
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+2002000
+best_score = 2000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kc
+Sorting      I3_ck -> I3_kc
+Allocating   X1_db
+Contracting  I3_kc * I1_kcdb -> X1_db
+dgemv
+Deallocating I3_kc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  X1_db * I2_djai -> X0_bjai
+dgemm
+Deallocating X1_db
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 2002000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kc
+Sorting      I3_ck -> I3_kc
+Allocating   X1_db
+Contracting  I3_kc * I1_kcdb -> X1_db
+dgemv
+Deallocating I3_kc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_aijd
+Sorting      I2_aidj -> I2_aijd
+Allocating   X0_baij
+Contracting  X1_db * I2_aijd -> X0_baij
+dgemm
+Deallocating X1_db
+Deallocating I2_aijd
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+2002000
+best_score = 3200000
+best_score = 3002000
+best_score = 2200000
+best_score = 2002000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kc
+Sorting      I3_ck -> I3_kc
+Allocating   X1_il
+Contracting  I1_kcil * I3_kc -> X1_il
+dgemv
+Deallocating I3_kc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjal
+Sorting      I2_albj -> I2_bjal
+Contracting  I2_bjal * X1_il -> X0_bjai
+dgemm
+Deallocating X1_il
+Deallocating I2_bjal
+
+Finalizing eT function with total sort cost:
+2002000
+best_score = 2200000
+best_score = 2002000
+best_score = 200000
+best_score = 2000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kc
+Sorting      I3_ck -> I3_kc
+Allocating   X1_il
+Contracting  I1_kcil * I3_kc -> X1_il
+dgemv
+Deallocating I3_kc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I2_bjal * X1_il -> X0_bjai
+dgemm
+Deallocating X1_il
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 14000000
+best_score = 13000000
+best_score = 12000000
+best_score = 11000000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_caid
+Sorting      I1_cdia -> I1_caid
+Allocating   X1_caik
+Contracting  I1_caid * I3_dk -> X1_caik
+dgemm
+Deallocating I1_caid
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ckai
+Sorting      X1_caik -> X1_ckai
+Deallocating X1_caik
+Contracting  I2_ckbj * X1_ckai -> X0_bjai
+dgemm
+Deallocating X1_ckai
+
+Finalizing eT function with total sort cost:
+11000000
+best_score = 1200000
+best_score = 1000000
+best_score = 300000
+best_score = 100000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_klbj
+Contracting  I3_ck * I2_clbj -> X1_klbj
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_klai
+Sorting      I1_klia -> I1_klai
+Contracting  X1_klbj * I1_klai -> X0_bjai
+dgemm
+Deallocating X1_klbj
+Deallocating I1_klai
+
+Finalizing eT function with total sort cost:
+100000
+best_score = 14000000
+best_score = 13000000
+best_score = 12000000
+best_score = 11000000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_caid
+Sorting      I1_cdia -> I1_caid
+Allocating   X1_caik
+Contracting  I1_caid * I3_dk -> X1_caik
+dgemm
+Deallocating I1_caid
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ckai
+Sorting      X1_caik -> X1_ckai
+Deallocating X1_caik
+Contracting  I2_bjck * X1_ckai -> X0_bjai
+dgemm
+Deallocating X1_ckai
+
+Finalizing eT function with total sort cost:
+11000000
+best_score = 3200000
+best_score = 3100000
+best_score = 2200000
+best_score = 2100000
+best_score = 1200000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjlc
+Sorting      I2_bjcl -> I2_bjlc
+Allocating   X1_bjlk
+Contracting  I2_bjlc * I3_ck -> X1_bjlk
+dgemm
+Deallocating I2_bjlc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_lkai
+Sorting      I1_klia -> I1_lkai
+Contracting  X1_bjlk * I1_lkai -> X0_bjai
+dgemm
+Deallocating I1_lkai
+Deallocating X1_bjlk
+
+Finalizing eT function with total sort cost:
+1200000
+best_score = 2200000
+best_score = 2002000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kc
+Sorting      I3_ck -> I3_kc
+Allocating   X1_jl
+Contracting  I1_kcjl * I3_kc -> X1_jl
+dgemv
+Deallocating I3_kc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_jaib
+Contracting  X1_jl * I2_aibl -> X0_jaib
+dgemm
+Deallocating X1_jl
+
+Sorting      X0_jaib -> X0_bjai
+Deallocating X0_jaib
+Finalizing eT function with total sort cost:
+2002000
+best_score = 3200000
+best_score = 3002000
+best_score = 2200000
+best_score = 2002000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kc
+Sorting      I3_ck -> I3_kc
+Allocating   X1_jl
+Contracting  I1_kcjl * I3_kc -> X1_jl
+dgemv
+Deallocating I3_kc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bail
+Sorting      I2_blai -> I2_bail
+Allocating   X0_baij
+Contracting  I2_bail * X1_jl -> X0_baij
+dgemm
+Deallocating X1_jl
+Deallocating I2_bail
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+2002000
+best_score = 14000000
+best_score = 13000000
+best_score = 12000000
+best_score = 11000000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_cbjd
+Sorting      I1_cdjb -> I1_cbjd
+Allocating   X1_cbjk
+Contracting  I1_cbjd * I3_dk -> X1_cbjk
+dgemm
+Deallocating I1_cbjd
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ckbj
+Sorting      X1_cbjk -> X1_ckbj
+Deallocating X1_cbjk
+Contracting  X1_ckbj * I2_ckai -> X0_bjai
+dgemm
+Deallocating X1_ckbj
+
+Finalizing eT function with total sort cost:
+11000000
+best_score = 2200000
+best_score = 2000000
+best_score = 300000
+best_score = 100000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_klai
+Contracting  I3_ck * I2_clai -> X1_klai
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_klbj
+Sorting      I1_kljb -> I1_klbj
+Contracting  I1_klbj * X1_klai -> X0_bjai
+dgemm
+Deallocating X1_klai
+Deallocating I1_klbj
+
+Finalizing eT function with total sort cost:
+100000
+best_score = 14000000
+best_score = 13000000
+best_score = 12000000
+best_score = 11000000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_cbjd
+Sorting      I1_cdjb -> I1_cbjd
+Allocating   X1_cbjk
+Contracting  I1_cbjd * I3_dk -> X1_cbjk
+dgemm
+Deallocating I1_cbjd
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ckbj
+Sorting      X1_cbjk -> X1_ckbj
+Deallocating X1_cbjk
+Contracting  X1_ckbj * I2_aick -> X0_bjai
+dgemm
+Deallocating X1_ckbj
+
+Finalizing eT function with total sort cost:
+11000000
+best_score = 3200000
+best_score = 3100000
+best_score = 1200000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ailc
+Sorting      I2_aicl -> I2_ailc
+Allocating   X1_ailk
+Contracting  I2_ailc * I3_ck -> X1_ailk
+dgemm
+Deallocating I2_ailc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_lkbj
+Sorting      I1_kljb -> I1_lkbj
+Contracting  I1_lkbj * X1_ailk -> X0_bjai
+dgemm
+Deallocating I1_lkbj
+Deallocating X1_ailk
+
+Finalizing eT function with total sort cost:
+1200000
+best_score = 15000000
+best_score = 14000000
+best_score = 13000000
+best_score = 12000000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_caid
+Sorting      I1_cdia -> I1_caid
+Allocating   X1_caik
+Contracting  I1_caid * I3_dk -> X1_caik
+dgemm
+Deallocating I1_caid
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ckai
+Sorting      X1_caik -> X1_ckai
+Deallocating X1_caik
+Allocating   I2_ckbj
+Sorting      I2_cjbk -> I2_ckbj
+Contracting  I2_ckbj * X1_ckai -> X0_bjai
+dgemm
+Deallocating X1_ckai
+Deallocating I2_ckbj
+
+Finalizing eT function with total sort cost:
+12000000
+best_score = 2200000
+best_score = 2100000
+best_score = 2000000
+best_score = 1200000
+best_score = 1100000
+best_score = 400000
+best_score = 200000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_kjbl
+Contracting  I3_ck * I2_cjbl -> X1_kjbl
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_klai
+Sorting      I1_klia -> I1_klai
+Allocating   X1_klbj
+Sorting      X1_kjbl -> X1_klbj
+Deallocating X1_kjbl
+Contracting  X1_klbj * I1_klai -> X0_bjai
+dgemm
+Deallocating I1_klai
+Deallocating X1_klbj
+
+Finalizing eT function with total sort cost:
+200000
+best_score = 3300000
+best_score = 3100000
+best_score = 2300000
+best_score = 2100000
+best_score = 1300000
+best_score = 1200000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bljc
+Sorting      I2_blcj -> I2_bljc
+Allocating   X1_kblj
+Contracting  I3_ck * I2_bljc -> X1_kblj
+dgemm
+Deallocating I2_bljc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_klai
+Sorting      I1_klia -> I1_klai
+Allocating   X1_klbj
+Sorting      X1_kblj -> X1_klbj
+Deallocating X1_kblj
+Contracting  X1_klbj * I1_klai -> X0_bjai
+dgemm
+Deallocating I1_klai
+Deallocating X1_klbj
+
+Finalizing eT function with total sort cost:
+1200000
+best_score = 13000000
+best_score = 12000000
+best_score = 11000000
+Total number of checked permutations: 96
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_caid
+Sorting      I1_cdia -> I1_caid
+Allocating   X1_kcai
+Contracting  I3_dk * I1_caid -> X1_kcai
+dgemm
+Deallocating I1_caid
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjkc
+Sorting      I2_bkcj -> I2_bjkc
+Contracting  I2_bjkc * X1_kcai -> X0_bjai
+dgemm
+Deallocating X1_kcai
+Deallocating I2_bjkc
+
+Finalizing eT function with total sort cost:
+11000000
+best_score = 15000000
+best_score = 14000000
+best_score = 13000000
+best_score = 12000000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_cbjd
+Sorting      I1_cdjb -> I1_cbjd
+Allocating   X1_cbjk
+Contracting  I1_cbjd * I3_dk -> X1_cbjk
+dgemm
+Deallocating I1_cbjd
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ckbj
+Sorting      X1_cbjk -> X1_ckbj
+Deallocating X1_cbjk
+Allocating   I2_ckai
+Sorting      I2_ciak -> I2_ckai
+Contracting  X1_ckbj * I2_ckai -> X0_bjai
+dgemm
+Deallocating X1_ckbj
+Deallocating I2_ckai
+
+Finalizing eT function with total sort cost:
+12000000
+best_score = 2200000
+best_score = 2100000
+best_score = 1200000
+best_score = 1100000
+best_score = 400000
+best_score = 200000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_kial
+Contracting  I3_ck * I2_cial -> X1_kial
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_klbj
+Sorting      I1_kljb -> I1_klbj
+Allocating   X1_klai
+Sorting      X1_kial -> X1_klai
+Deallocating X1_kial
+Contracting  I1_klbj * X1_klai -> X0_bjai
+dgemm
+Deallocating I1_klbj
+Deallocating X1_klai
+
+Finalizing eT function with total sort cost:
+200000
+best_score = 3300000
+best_score = 3100000
+best_score = 1300000
+best_score = 1200000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_alic
+Sorting      I2_alci -> I2_alic
+Allocating   X1_kali
+Contracting  I3_ck * I2_alic -> X1_kali
+dgemm
+Deallocating I2_alic
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_klbj
+Sorting      I1_kljb -> I1_klbj
+Allocating   X1_klai
+Sorting      X1_kali -> X1_klai
+Deallocating X1_kali
+Contracting  I1_klbj * X1_klai -> X0_bjai
+dgemm
+Deallocating I1_klbj
+Deallocating X1_klai
+
+Finalizing eT function with total sort cost:
+1200000
+best_score = 13000000
+best_score = 11000000
+Total number of checked permutations: 96
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_cbjd
+Sorting      I1_cdjb -> I1_cbjd
+Allocating   X1_kcbj
+Contracting  I3_dk * I1_cbjd -> X1_kcbj
+dgemm
+Deallocating I1_cbjd
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_aikc
+Sorting      I2_akci -> I2_aikc
+Contracting  X1_kcbj * I2_aikc -> X0_bjai
+dgemm
+Deallocating X1_kcbj
+Deallocating I2_aikc
+
+Finalizing eT function with total sort cost:
+11000000
+best_score = 13100000
+best_score = 12100000
+Total number of checked permutations: 96
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_cijd
+Sorting      I2_cidj -> I2_cijd
+Allocating   X1_cijk
+Contracting  I2_cijd * I3_dk -> X1_cijk
+dgemm
+Deallocating I2_cijd
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ckij
+Sorting      X1_cijk -> X1_ckij
+Deallocating X1_cijk
+Allocating   I1_ckba
+Sorting      I1_cakb -> I1_ckba
+Allocating   X0_baij
+Contracting  I1_ckba * X1_ckij -> X0_baij
+dgemm
+Deallocating X1_ckij
+Deallocating I1_ckba
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+12100000
+best_score = 13200000
+best_score = 13000000
+best_score = 12200000
+best_score = 12000000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_cjid
+Sorting      I2_cjdi -> I2_cjid
+Allocating   X1_kcji
+Contracting  I3_dk * I2_cjid -> X1_kcji
+dgemm
+Deallocating I2_cjid
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_kcba
+Sorting      I1_kacb -> I1_kcba
+Allocating   X0_baji
+Contracting  I1_kcba * X1_kcji -> X0_baji
+dgemm
+Deallocating X1_kcji
+Deallocating I1_kcba
+
+Sorting      X0_baji -> X0_bjai
+Deallocating X0_baji
+Finalizing eT function with total sort cost:
+12000000
+best_score = 12100000
+best_score = 11100000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_icjk
+Contracting  I2_dicj * I3_dk -> X1_icjk
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ijkc
+Sorting      X1_icjk -> X1_ijkc
+Deallocating X1_icjk
+Allocating   I1_kcba
+Sorting      I1_kacb -> I1_kcba
+Allocating   X0_baij
+Contracting  I1_kcba * X1_ijkc -> X0_baij
+dgemm
+Deallocating X1_ijkc
+Deallocating I1_kcba
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+11100000
+best_score = 12100000
+best_score = 11100000
+Total number of checked permutations: 96
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_jcik
+Contracting  I2_djci * I3_dk -> X1_jcik
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_jick
+Sorting      X1_jcik -> X1_jick
+Deallocating X1_jcik
+Allocating   I1_ckba
+Sorting      I1_cakb -> I1_ckba
+Allocating   X0_baji
+Contracting  I1_ckba * X1_jick -> X0_baji
+dgemm
+Deallocating X1_jick
+Deallocating I1_ckba
+
+Sorting      X0_baji -> X0_bjai
+Deallocating X0_baji
+Finalizing eT function with total sort cost:
+11100000
+best_score = 5000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_cajk
+Contracting  I1_cajd * I3_dk -> X1_cajk
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ckaj
+Sorting      X1_cajk -> X1_ckaj
+Deallocating X1_cajk
+Allocating   I2_ckbi
+Sorting      I2_cibk -> I2_ckbi
+Allocating   X0_biaj
+Contracting  I2_ckbi * X1_ckaj -> X0_biaj
+dgemm
+Deallocating X1_ckaj
+Deallocating I2_ckbi
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+3000000
+best_score = 2200000
+best_score = 2100000
+best_score = 1400000
+best_score = 1200000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_kibl
+Contracting  I3_ck * I2_cibl -> X1_kibl
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_klaj
+Sorting      I1_kajl -> I1_klaj
+Allocating   X1_klbi
+Sorting      X1_kibl -> X1_klbi
+Deallocating X1_kibl
+Allocating   X0_biaj
+Contracting  X1_klbi * I1_klaj -> X0_biaj
+dgemm
+Deallocating I1_klaj
+Deallocating X1_klbi
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+1200000
+best_score = 3300000
+best_score = 3200000
+best_score = 2300000
+best_score = 2200000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_blic
+Sorting      I2_blci -> I2_blic
+Allocating   X1_kbli
+Contracting  I3_ck * I2_blic -> X1_kbli
+dgemm
+Deallocating I2_blic
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_klaj
+Sorting      I1_kajl -> I1_klaj
+Allocating   X1_klbi
+Sorting      X1_kbli -> X1_klbi
+Deallocating X1_kbli
+Allocating   X0_biaj
+Contracting  X1_klbi * I1_klaj -> X0_biaj
+dgemm
+Deallocating I1_klaj
+Deallocating X1_klbi
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+2200000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 96
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_kcaj
+Contracting  I3_dk * I1_cajd -> X1_kcaj
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bikc
+Sorting      I2_bkci -> I2_bikc
+Allocating   X0_biaj
+Contracting  I2_bikc * X1_kcaj -> X0_biaj
+dgemm
+Deallocating X1_kcaj
+Deallocating I2_bikc
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+2000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_cbik
+Contracting  I1_cbid * I3_dk -> X1_cbik
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ckbi
+Sorting      X1_cbik -> X1_ckbi
+Deallocating X1_cbik
+Allocating   I2_ckja
+Sorting      I2_cjak -> I2_ckja
+Allocating   X0_bija
+Contracting  X1_ckbi * I2_ckja -> X0_bija
+dgemm
+Deallocating X1_ckbi
+Deallocating I2_ckja
+
+Sorting      X0_bija -> X0_bjai
+Deallocating X0_bija
+Finalizing eT function with total sort cost:
+3000000
+best_score = 1200000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_jalk
+Contracting  I2_cjal * I3_ck -> X1_jalk
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_lkbi
+Sorting      I1_kbil -> I1_lkbi
+Allocating   X0_bija
+Contracting  I1_lkbi * X1_jalk -> X0_bija
+dgemm
+Deallocating I1_lkbi
+Deallocating X1_jalk
+
+Sorting      X0_bija -> X0_bjai
+Deallocating X0_bija
+Finalizing eT function with total sort cost:
+1200000
+best_score = 2300000
+best_score = 2200000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_aljc
+Sorting      I2_alcj -> I2_aljc
+Allocating   X1_kalj
+Contracting  I3_ck * I2_aljc -> X1_kalj
+dgemm
+Deallocating I2_aljc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_klbi
+Sorting      I1_kbil -> I1_klbi
+Allocating   X1_klaj
+Sorting      X1_kalj -> X1_klaj
+Deallocating X1_kalj
+Allocating   X0_biaj
+Contracting  I1_klbi * X1_klaj -> X0_biaj
+dgemm
+Deallocating I1_klbi
+Deallocating X1_klaj
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+2200000
+best_score = 2000000
+Total number of checked permutations: 96
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_kcbi
+Contracting  I3_dk * I1_cbid -> X1_kcbi
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ajkc
+Sorting      I2_akcj -> I2_ajkc
+Allocating   X0_biaj
+Contracting  X1_kcbi * I2_ajkc -> X0_biaj
+dgemm
+Deallocating X1_kcbi
+Deallocating I2_ajkc
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+2000000
+best_score = 3020000
+best_score = 3010000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ikjl
+Contracting  I1_ikjc * I3_cl -> X1_ikjl
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ijkl
+Sorting      X1_ikjl -> X1_ijkl
+Deallocating X1_ikjl
+Allocating   I2_abkl
+Sorting      I2_akbl -> I2_abkl
+Allocating   X0_ijab
+Contracting  X1_ijkl * I2_abkl -> X0_ijab
+dgemm
+Deallocating X1_ijkl
+Deallocating I2_abkl
+
+Sorting      X0_ijab -> X0_bjai
+Deallocating X0_ijab
+Finalizing eT function with total sort cost:
+3010000
+best_score = 3110000
+Total number of checked permutations: 96
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ijkc
+Sorting      I1_icjk -> I1_ijkc
+Allocating   X1_lijk
+Contracting  I3_cl * I1_ijkc -> X1_lijk
+dgemm
+Deallocating I1_ijkc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_lkij
+Sorting      X1_lijk -> X1_lkij
+Deallocating X1_lijk
+Allocating   I2_ablk
+Sorting      I2_albk -> I2_ablk
+Allocating   X0_ijab
+Contracting  X1_lkij * I2_ablk -> X0_ijab
+dgemm
+Deallocating X1_lkij
+Deallocating I2_ablk
+
+Sorting      X0_ijab -> X0_bjai
+Deallocating X0_ijab
+Finalizing eT function with total sort cost:
+3110000
+best_score = 3120000
+best_score = 3100000
+best_score = 2120000
+best_score = 2100000
+Total number of checked permutations: 192
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ijkc
+Sorting      I1_icjk -> I1_ijkc
+Allocating   X1_ijkl
+Contracting  I1_ijkc * I3_cl -> X1_ijkl
+dgemm
+Deallocating I1_ijkc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bakl
+Sorting      I2_bkal -> I2_bakl
+Allocating   X0_baij
+Contracting  I2_bakl * X1_ijkl -> X0_baij
+dgemm
+Deallocating X1_ijkl
+Deallocating I2_bakl
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+2100000
+best_score = 3010000
+best_score = 2010000
+Total number of checked permutations: 96
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_likj
+Contracting  I3_cl * I1_ikjc -> X1_likj
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_lkij
+Sorting      X1_likj -> X1_lkij
+Deallocating X1_likj
+Allocating   I2_balk
+Sorting      I2_blak -> I2_balk
+Allocating   X0_baij
+Contracting  I2_balk * X1_lkij -> X0_baij
+dgemm
+Deallocating X1_lkij
+Deallocating I2_balk
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+2010000
+best_score = 1000000
+best_score = 2000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bj
+Contracting  I2_ckbj * I3_ck -> X1_bj
+dgemv
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ai
+Sorting      I1_ia -> I1_ai
+Contracting  X1_bj * I1_ai -> X0_bjai
+dger
+Deallocating X1_bj
+Deallocating I1_ai
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 3000000
+best_score = 2000000
+best_score = 1002000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ckbj
+Sorting      I2_cjbk -> I2_ckbj
+Allocating   X1_bj
+Contracting  I2_ckbj * I3_ck -> X1_bj
+dgemv
+Deallocating I2_ckbj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ai
+Sorting      I1_ia -> I1_ai
+Contracting  X1_bj * I1_ai -> X0_bjai
+dger
+Deallocating X1_bj
+Deallocating I1_ai
+
+Finalizing eT function with total sort cost:
+1002000
+best_score = 2000000
+best_score = 1002000
+Total number of checked permutations: 32
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjck
+Sorting      I2_bkcj -> I2_bjck
+Allocating   X1_bj
+Contracting  I2_bjck * I3_ck -> X1_bj
+dgemv
+Deallocating I2_bjck
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ai
+Sorting      I1_ia -> I1_ai
+Contracting  X1_bj * I1_ai -> X0_bjai
+dger
+Deallocating X1_bj
+Deallocating I1_ai
+
+Finalizing eT function with total sort cost:
+1002000
+best_score = 1000000
+best_score = 2000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bj
+Contracting  I2_bjck * I3_ck -> X1_bj
+dgemv
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ai
+Sorting      I1_ia -> I1_ai
+Contracting  X1_bj * I1_ai -> X0_bjai
+dger
+Deallocating X1_bj
+Deallocating I1_ai
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 2000000
+best_score = 2000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ai
+Contracting  I2_ckai * I3_ck -> X1_ai
+dgemv
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bj
+Sorting      I1_jb -> I1_bj
+Contracting  I1_bj * X1_ai -> X0_bjai
+dger
+Deallocating X1_ai
+Deallocating I1_bj
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 3000000
+best_score = 2002000
+best_score = 1002000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ckai
+Sorting      I2_ciak -> I2_ckai
+Allocating   X1_ai
+Contracting  I2_ckai * I3_ck -> X1_ai
+dgemv
+Deallocating I2_ckai
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bj
+Sorting      I1_jb -> I1_bj
+Contracting  I1_bj * X1_ai -> X0_bjai
+dger
+Deallocating X1_ai
+Deallocating I1_bj
+
+Finalizing eT function with total sort cost:
+1002000
+best_score = 3000000
+best_score = 1002000
+Total number of checked permutations: 32
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_aick
+Sorting      I2_akci -> I2_aick
+Allocating   X1_ai
+Contracting  I2_aick * I3_ck -> X1_ai
+dgemv
+Deallocating I2_aick
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bj
+Sorting      I1_jb -> I1_bj
+Contracting  I1_bj * X1_ai -> X0_bjai
+dger
+Deallocating X1_ai
+Deallocating I1_bj
+
+Finalizing eT function with total sort cost:
+1002000
+best_score = 2000000
+best_score = 2000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ai
+Contracting  I2_aick * I3_ck -> X1_ai
+dgemv
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bj
+Sorting      I1_jb -> I1_bj
+Contracting  I1_bj * X1_ai -> X0_bjai
+dger
+Deallocating X1_ai
+Deallocating I1_bj
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ca
+Contracting  I3_ck * I1_ka -> X1_ca
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_aibj
+Contracting  X1_ca * I2_cibj -> X0_aibj
+dgemm
+Deallocating X1_ca
+
+Sorting      X0_aibj -> X0_bjai
+Deallocating X0_aibj
+Finalizing eT function with total sort cost:
+2000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ca
+Contracting  I3_ck * I1_ka -> X1_ca
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjic
+Sorting      I2_bjci -> I2_bjic
+Allocating   X0_bjia
+Contracting  I2_bjic * X1_ca -> X0_bjia
+dgemm
+Deallocating X1_ca
+Deallocating I2_bjic
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+2000000
+best_score = 0
+Total number of checked permutations: 1
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_cb
+Contracting  I3_ck * I1_kb -> X1_cb
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  X1_cb * I2_cjai -> X0_bjai
+dgemm
+Deallocating X1_cb
+
+Finalizing eT function with total sort cost:
+0
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_cb
+Contracting  I3_ck * I1_kb -> X1_cb
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_aijc
+Sorting      I2_aicj -> I2_aijc
+Allocating   X0_baij
+Contracting  X1_cb * I2_aijc -> X0_baij
+dgemm
+Deallocating X1_cb
+Deallocating I2_aijc
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+2000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ik
+Contracting  I1_ic * I3_ck -> X1_ik
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjak
+Sorting      I2_akbj -> I2_bjak
+Contracting  I2_bjak * X1_ik -> X0_bjai
+dgemm
+Deallocating X1_ik
+Deallocating I2_bjak
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2000000
+best_score = 0
+Total number of checked permutations: 3
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ik
+Contracting  I1_ic * I3_ck -> X1_ik
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I2_bjak * X1_ik -> X0_bjai
+dgemm
+Deallocating X1_ik
+
+Finalizing eT function with total sort cost:
+0
+best_score = 1000000
+best_score = 2000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bj
+Contracting  I2_ckbj * I3_ck -> X1_bj
+dgemv
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ai
+Sorting      I1_ia -> I1_ai
+Contracting  X1_bj * I1_ai -> X0_bjai
+dger
+Deallocating X1_bj
+Deallocating I1_ai
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 3000000
+best_score = 2000000
+best_score = 1002000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ckbj
+Sorting      I2_cjbk -> I2_ckbj
+Allocating   X1_bj
+Contracting  I2_ckbj * I3_ck -> X1_bj
+dgemv
+Deallocating I2_ckbj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ai
+Sorting      I1_ia -> I1_ai
+Contracting  X1_bj * I1_ai -> X0_bjai
+dger
+Deallocating X1_bj
+Deallocating I1_ai
+
+Finalizing eT function with total sort cost:
+1002000
+best_score = 2000000
+best_score = 1002000
+Total number of checked permutations: 32
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjck
+Sorting      I2_bkcj -> I2_bjck
+Allocating   X1_bj
+Contracting  I2_bjck * I3_ck -> X1_bj
+dgemv
+Deallocating I2_bjck
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ai
+Sorting      I1_ia -> I1_ai
+Contracting  X1_bj * I1_ai -> X0_bjai
+dger
+Deallocating X1_bj
+Deallocating I1_ai
+
+Finalizing eT function with total sort cost:
+1002000
+best_score = 1000000
+best_score = 2000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bj
+Contracting  I2_bjck * I3_ck -> X1_bj
+dgemv
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ai
+Sorting      I1_ia -> I1_ai
+Contracting  X1_bj * I1_ai -> X0_bjai
+dger
+Deallocating X1_bj
+Deallocating I1_ai
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_jk
+Contracting  I1_jc * I3_ck -> X1_jk
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_jaib
+Contracting  X1_jk * I2_aibk -> X0_jaib
+dgemm
+Deallocating X1_jk
+
+Sorting      X0_jaib -> X0_bjai
+Deallocating X0_jaib
+Finalizing eT function with total sort cost:
+2000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_jk
+Contracting  I1_jc * I3_ck -> X1_jk
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_baik
+Sorting      I2_bkai -> I2_baik
+Allocating   X0_baij
+Contracting  I2_baik * X1_jk -> X0_baij
+dgemm
+Deallocating X1_jk
+Deallocating I2_baik
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2000000
+best_score = 2000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ai
+Contracting  I2_ckai * I3_ck -> X1_ai
+dgemv
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bj
+Sorting      I1_jb -> I1_bj
+Contracting  I1_bj * X1_ai -> X0_bjai
+dger
+Deallocating X1_ai
+Deallocating I1_bj
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 3000000
+best_score = 2002000
+best_score = 1002000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ckai
+Sorting      I2_ciak -> I2_ckai
+Allocating   X1_ai
+Contracting  I2_ckai * I3_ck -> X1_ai
+dgemv
+Deallocating I2_ckai
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bj
+Sorting      I1_jb -> I1_bj
+Contracting  I1_bj * X1_ai -> X0_bjai
+dger
+Deallocating X1_ai
+Deallocating I1_bj
+
+Finalizing eT function with total sort cost:
+1002000
+best_score = 3000000
+best_score = 1002000
+Total number of checked permutations: 32
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_aick
+Sorting      I2_akci -> I2_aick
+Allocating   X1_ai
+Contracting  I2_aick * I3_ck -> X1_ai
+dgemv
+Deallocating I2_aick
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bj
+Sorting      I1_jb -> I1_bj
+Contracting  I1_bj * X1_ai -> X0_bjai
+dger
+Deallocating X1_ai
+Deallocating I1_bj
+
+Finalizing eT function with total sort cost:
+1002000
+best_score = 2000000
+best_score = 2000
+Total number of checked permutations: 16
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ai
+Contracting  I2_aick * I3_ck -> X1_ai
+dgemv
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bj
+Sorting      I1_jb -> I1_bj
+Contracting  I1_bj * X1_ai -> X0_bjai
+dger
+Deallocating X1_ai
+Deallocating I1_bj
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 5000000
+best_score = 4000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kcld
+Sorting      I3_ckdl -> I3_kcld
+Allocating   X1_ad
+Contracting  I1_kcla * I3_kcld -> X1_ad
+dgemm
+Deallocating I3_kcld
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_aibj
+Contracting  X1_ad * I2_dibj -> X0_aibj
+dgemm
+Deallocating X1_ad
+
+Sorting      X0_aibj -> X0_bjai
+Deallocating X0_aibj
+Finalizing eT function with total sort cost:
+4000000
+best_score = 6000000
+best_score = 5000000
+best_score = 4000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kcld
+Sorting      I3_ckdl -> I3_kcld
+Allocating   X1_ad
+Contracting  I1_kcla * I3_kcld -> X1_ad
+dgemm
+Deallocating I3_kcld
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjid
+Sorting      I2_bjdi -> I2_bjid
+Allocating   X0_bjia
+Contracting  I2_bjid * X1_ad -> X0_bjia
+dgemm
+Deallocating X1_ad
+Deallocating I2_bjid
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+4000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kcld
+Sorting      I3_ckdl -> I3_kcld
+Allocating   X1_bd
+Contracting  I1_kclb * I3_kcld -> X1_bd
+dgemm
+Deallocating I3_kcld
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  X1_bd * I2_djai -> X0_bjai
+dgemm
+Deallocating X1_bd
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 5000000
+best_score = 4000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kcld
+Sorting      I3_ckdl -> I3_kcld
+Allocating   X1_bd
+Contracting  I1_kclb * I3_kcld -> X1_bd
+dgemm
+Deallocating I3_kcld
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_aijd
+Sorting      I2_aidj -> I2_aijd
+Allocating   X0_baij
+Contracting  X1_bd * I2_aijd -> X0_baij
+dgemm
+Deallocating X1_bd
+Deallocating I2_aijd
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+4000000
+best_score = 4000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bjck
+Contracting  I2_dlbj * I3_ckdl -> X1_bjck
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bjkc
+Sorting      X1_bjck -> X1_bjkc
+Deallocating X1_bjck
+Allocating   X0_bjia
+Contracting  X1_bjkc * I1_kcia -> X0_bjia
+dgemm
+Deallocating X1_bjkc
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+2000000
+best_score = 7000000
+best_score = 5000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 256
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kcdl
+Sorting      I3_cldk -> I3_kcdl
+Allocating   X1_bjkc
+Contracting  I2_dlbj * I3_kcdl -> X1_bjkc
+dgemm
+Deallocating I3_kcdl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_bjia
+Contracting  X1_bjkc * I1_kcia -> X0_bjia
+dgemm
+Deallocating X1_bjkc
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+3000000
+best_score = 5000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_dlbj
+Sorting      I2_djbl -> I2_dlbj
+Allocating   X1_bjck
+Contracting  I2_dlbj * I3_ckdl -> X1_bjck
+dgemm
+Deallocating I2_dlbj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bjkc
+Sorting      X1_bjck -> X1_bjkc
+Deallocating X1_bjck
+Allocating   X0_bjia
+Contracting  X1_bjkc * I1_kcia -> X0_bjia
+dgemm
+Deallocating X1_bjkc
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+3000000
+best_score = 7000000
+best_score = 6000000
+best_score = 5000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 256
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckai
+Sorting      I1_kcia -> I1_ckai
+Allocating   X1_dlai
+Contracting  I3_ckdl * I1_ckai -> X1_dlai
+dgemm
+Deallocating I1_ckai
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjdl
+Sorting      I2_bldj -> I2_bjdl
+Contracting  I2_bjdl * X1_dlai -> X0_bjai
+dgemm
+Deallocating X1_dlai
+Deallocating I2_bjdl
+
+Finalizing eT function with total sort cost:
+3000000
+best_score = 4000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckai
+Sorting      I1_kcia -> I1_ckai
+Allocating   X1_dlai
+Contracting  I3_ckdl * I1_ckai -> X1_dlai
+dgemm
+Deallocating I1_ckai
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I2_bjdl * X1_dlai -> X0_bjai
+dgemm
+Deallocating X1_dlai
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 6000000
+best_score = 5000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 256
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kcdl
+Sorting      I3_cldk -> I3_kcdl
+Allocating   X1_dlia
+Contracting  I3_kcdl * I1_kcia -> X1_dlia
+dgemm
+Deallocating I3_kcdl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_bjia
+Contracting  I2_bjdl * X1_dlia -> X0_bjia
+dgemm
+Deallocating X1_dlia
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+3000000
+best_score = 4000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_aick
+Contracting  I2_dlai * I3_ckdl -> X1_aick
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbj
+Sorting      I1_kcjb -> I1_ckbj
+Contracting  I1_ckbj * X1_aick -> X0_bjai
+dgemm
+Deallocating I1_ckbj
+Deallocating X1_aick
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 7000000
+best_score = 5000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 256
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_ckdl
+Sorting      I3_cldk -> I3_ckdl
+Allocating   X1_aick
+Contracting  I2_dlai * I3_ckdl -> X1_aick
+dgemm
+Deallocating I3_ckdl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbj
+Sorting      I1_kcjb -> I1_ckbj
+Contracting  I1_ckbj * X1_aick -> X0_bjai
+dgemm
+Deallocating I1_ckbj
+Deallocating X1_aick
+
+Finalizing eT function with total sort cost:
+3000000
+best_score = 5000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_dlai
+Sorting      I2_dial -> I2_dlai
+Allocating   X1_aick
+Contracting  I2_dlai * I3_ckdl -> X1_aick
+dgemm
+Deallocating I2_dlai
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbj
+Sorting      I1_kcjb -> I1_ckbj
+Contracting  I1_ckbj * X1_aick -> X0_bjai
+dgemm
+Deallocating I1_ckbj
+Deallocating X1_aick
+
+Finalizing eT function with total sort cost:
+3000000
+best_score = 7000000
+best_score = 6000000
+best_score = 5000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 256
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbj
+Sorting      I1_kcjb -> I1_ckbj
+Allocating   X1_dlbj
+Contracting  I3_ckdl * I1_ckbj -> X1_dlbj
+dgemm
+Deallocating I1_ckbj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_aidl
+Sorting      I2_aldi -> I2_aidl
+Contracting  X1_dlbj * I2_aidl -> X0_bjai
+dgemm
+Deallocating X1_dlbj
+Deallocating I2_aidl
+
+Finalizing eT function with total sort cost:
+3000000
+best_score = 4000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbj
+Sorting      I1_kcjb -> I1_ckbj
+Allocating   X1_dlbj
+Contracting  I3_ckdl * I1_ckbj -> X1_dlbj
+dgemm
+Deallocating I1_ckbj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  X1_dlbj * I2_aidl -> X0_bjai
+dgemm
+Deallocating X1_dlbj
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 6000000
+best_score = 5000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 256
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kcdl
+Sorting      I3_cldk -> I3_kcdl
+Allocating   I1_kcbj
+Sorting      I1_kcjb -> I1_kcbj
+Allocating   X1_dlbj
+Contracting  I3_kcdl * I1_kcbj -> X1_dlbj
+dgemm
+Deallocating I3_kcdl
+Deallocating I1_kcbj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  X1_dlbj * I2_aidl -> X0_bjai
+dgemm
+Deallocating X1_dlbj
+
+Finalizing eT function with total sort cost:
+3000000
+best_score = 5000000
+best_score = 4000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckdi
+Sorting      I1_kcid -> I1_ckdi
+Allocating   X1_il
+Contracting  I1_ckdi * I3_ckdl -> X1_il
+dgemm
+Deallocating I1_ckdi
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjal
+Sorting      I2_albj -> I2_bjal
+Contracting  I2_bjal * X1_il -> X0_bjai
+dgemm
+Deallocating X1_il
+Deallocating I2_bjal
+
+Finalizing eT function with total sort cost:
+4000000
+best_score = 6000000
+best_score = 5000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_cdki
+Sorting      I1_kcid -> I1_cdki
+Allocating   I3_cdkl
+Sorting      I3_cldk -> I3_cdkl
+Allocating   X1_il
+Contracting  I1_cdki * I3_cdkl -> X1_il
+dgemm
+Deallocating I1_cdki
+Deallocating I3_cdkl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjal
+Sorting      I2_albj -> I2_bjal
+Contracting  I2_bjal * X1_il -> X0_bjai
+dgemm
+Deallocating X1_il
+Deallocating I2_bjal
+
+Finalizing eT function with total sort cost:
+5000000
+best_score = 4000000
+best_score = 2000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckdi
+Sorting      I1_kcid -> I1_ckdi
+Allocating   X1_il
+Contracting  I1_ckdi * I3_ckdl -> X1_il
+dgemm
+Deallocating I1_ckdi
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I2_bjal * X1_il -> X0_bjai
+dgemm
+Deallocating X1_il
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 5000000
+best_score = 3000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_cdki
+Sorting      I1_kcid -> I1_cdki
+Allocating   I3_cdkl
+Sorting      I3_cldk -> I3_cdkl
+Allocating   X1_il
+Contracting  I1_cdki * I3_cdkl -> X1_il
+dgemm
+Deallocating I1_cdki
+Deallocating I3_cdkl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I2_bjal * X1_il -> X0_bjai
+dgemm
+Deallocating X1_il
+
+Finalizing eT function with total sort cost:
+3000000
+best_score = 7000000
+best_score = 6000000
+best_score = 5000000
+best_score = 4000000
+Total number of checked permutations: 256
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_dlbj
+Sorting      I2_djbl -> I2_dlbj
+Allocating   I3_kcdl
+Sorting      I3_cldk -> I3_kcdl
+Allocating   X1_bjkc
+Contracting  I2_dlbj * I3_kcdl -> X1_bjkc
+dgemm
+Deallocating I2_dlbj
+Deallocating I3_kcdl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_bjia
+Contracting  X1_bjkc * I1_kcia -> X0_bjia
+dgemm
+Deallocating X1_bjkc
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+4000000
+best_score = 5000000
+best_score = 4000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kcld
+Sorting      I3_cldk -> I3_kcld
+Allocating   X1_ldia
+Contracting  I3_kcld * I1_kcia -> X1_ldia
+dgemm
+Deallocating I3_kcld
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bjld
+Sorting      I2_bldj -> I2_bjld
+Allocating   X0_bjia
+Contracting  I2_bjld * X1_ldia -> X0_bjia
+dgemm
+Deallocating X1_ldia
+Deallocating I2_bjld
+
+Sorting      X0_bjia -> X0_bjai
+Deallocating X0_bjia
+Finalizing eT function with total sort cost:
+4000000
+best_score = 4000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckdj
+Sorting      I1_kcjd -> I1_ckdj
+Allocating   X1_jl
+Contracting  I1_ckdj * I3_ckdl -> X1_jl
+dgemm
+Deallocating I1_ckdj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_jaib
+Contracting  X1_jl * I2_aibl -> X0_jaib
+dgemm
+Deallocating X1_jl
+
+Sorting      X0_jaib -> X0_bjai
+Deallocating X0_jaib
+Finalizing eT function with total sort cost:
+4000000
+best_score = 5000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_cdkj
+Sorting      I1_kcjd -> I1_cdkj
+Allocating   I3_cdkl
+Sorting      I3_cldk -> I3_cdkl
+Allocating   X1_jl
+Contracting  I1_cdkj * I3_cdkl -> X1_jl
+dgemm
+Deallocating I1_cdkj
+Deallocating I3_cdkl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_jaib
+Contracting  X1_jl * I2_aibl -> X0_jaib
+dgemm
+Deallocating X1_jl
+
+Sorting      X0_jaib -> X0_bjai
+Deallocating X0_jaib
+Finalizing eT function with total sort cost:
+5000000
+best_score = 5000000
+best_score = 4000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckdj
+Sorting      I1_kcjd -> I1_ckdj
+Allocating   X1_jl
+Contracting  I1_ckdj * I3_ckdl -> X1_jl
+dgemm
+Deallocating I1_ckdj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bail
+Sorting      I2_blai -> I2_bail
+Allocating   X0_baij
+Contracting  I2_bail * X1_jl -> X0_baij
+dgemm
+Deallocating X1_jl
+Deallocating I2_bail
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+4000000
+best_score = 6000000
+best_score = 5000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_cdkj
+Sorting      I1_kcjd -> I1_cdkj
+Allocating   I3_cdkl
+Sorting      I3_cldk -> I3_cdkl
+Allocating   X1_jl
+Contracting  I1_cdkj * I3_cdkl -> X1_jl
+dgemm
+Deallocating I1_cdkj
+Deallocating I3_cdkl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bail
+Sorting      I2_blai -> I2_bail
+Allocating   X0_baij
+Contracting  I2_bail * X1_jl -> X0_baij
+dgemm
+Deallocating X1_jl
+Deallocating I2_bail
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+5000000
+best_score = 7000000
+best_score = 6000000
+best_score = 5000000
+best_score = 4000000
+Total number of checked permutations: 256
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_dlai
+Sorting      I2_dial -> I2_dlai
+Allocating   I3_ckdl
+Sorting      I3_cldk -> I3_ckdl
+Allocating   X1_aick
+Contracting  I2_dlai * I3_ckdl -> X1_aick
+dgemm
+Deallocating I2_dlai
+Deallocating I3_ckdl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbj
+Sorting      I1_kcjb -> I1_ckbj
+Contracting  I1_ckbj * X1_aick -> X0_bjai
+dgemm
+Deallocating I1_ckbj
+Deallocating X1_aick
+
+Finalizing eT function with total sort cost:
+4000000
+best_score = 5000000
+best_score = 4000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kcld
+Sorting      I3_cldk -> I3_kcld
+Allocating   I1_kcbj
+Sorting      I1_kcjb -> I1_kcbj
+Allocating   X1_ldbj
+Contracting  I3_kcld * I1_kcbj -> X1_ldbj
+dgemm
+Deallocating I3_kcld
+Deallocating I1_kcbj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_aild
+Sorting      I2_aldi -> I2_aild
+Contracting  X1_ldbj * I2_aild -> X0_bjai
+dgemm
+Deallocating X1_ldbj
+Deallocating I2_aild
+
+Finalizing eT function with total sort cost:
+4000000
+best_score = 5000000
+best_score = 4000000
+Total number of checked permutations: 64
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_cdij
+Sorting      I2_cidj -> I2_cdij
+Allocating   I3_cdkl
+Sorting      I3_ckdl -> I3_cdkl
+Allocating   X1_ijkl
+Contracting  I2_cdij * I3_cdkl -> X1_ijkl
+dgemm
+Deallocating I2_cdij
+Deallocating I3_cdkl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_klba
+Sorting      I1_kalb -> I1_klba
+Allocating   X0_baij
+Contracting  I1_klba * X1_ijkl -> X0_baij
+dgemm
+Deallocating X1_ijkl
+Deallocating I1_klba
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+4000000
+best_score = 5010000
+best_score = 5000000
+best_score = 4010000
+best_score = 4000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_cdji
+Sorting      I2_cjdi -> I2_cdji
+Allocating   I3_cdkl
+Sorting      I3_cldk -> I3_cdkl
+Allocating   X1_jikl
+Contracting  I2_cdji * I3_cdkl -> X1_jikl
+dgemm
+Deallocating I2_cdji
+Deallocating I3_cdkl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_klba
+Sorting      I1_kalb -> I1_klba
+Allocating   X0_baji
+Contracting  I1_klba * X1_jikl -> X0_baji
+dgemm
+Deallocating X1_jikl
+Deallocating I1_klba
+
+Sorting      X0_baji -> X0_bjai
+Deallocating X0_baji
+Finalizing eT function with total sort cost:
+4000000
+best_score = 7000000
+best_score = 6000000
+best_score = 5000000
+Total number of checked permutations: 256
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_dlbi
+Sorting      I2_dibl -> I2_dlbi
+Allocating   I3_ckdl
+Sorting      I3_cldk -> I3_ckdl
+Allocating   X1_bick
+Contracting  I2_dlbi * I3_ckdl -> X1_bick
+dgemm
+Deallocating I2_dlbi
+Deallocating I3_ckdl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckaj
+Sorting      I1_kajc -> I1_ckaj
+Allocating   X0_biaj
+Contracting  X1_bick * I1_ckaj -> X0_biaj
+dgemm
+Deallocating I1_ckaj
+Deallocating X1_bick
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+5000000
+best_score = 6000000
+best_score = 5000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kcld
+Sorting      I3_cldk -> I3_kcld
+Allocating   I1_kcaj
+Sorting      I1_kajc -> I1_kcaj
+Allocating   X1_ldaj
+Contracting  I3_kcld * I1_kcaj -> X1_ldaj
+dgemm
+Deallocating I3_kcld
+Deallocating I1_kcaj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bild
+Sorting      I2_bldi -> I2_bild
+Allocating   X0_biaj
+Contracting  I2_bild * X1_ldaj -> X0_biaj
+dgemm
+Deallocating X1_ldaj
+Deallocating I2_bild
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+5000000
+best_score = 4000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_cldk
+Sorting      I3_ckdl -> I3_cldk
+Allocating   X1_ik
+Contracting  I2_cldi * I3_cldk -> X1_ik
+dgemm
+Deallocating I3_cldk
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_kbja
+Sorting      I1_kajb -> I1_kbja
+Contracting  I1_kbja * X1_ik -> X0_bjai
+dgemm
+Deallocating X1_ik
+Deallocating I1_kbja
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2000000
+best_score = 1000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ik
+Contracting  I2_cldi * I3_cldk -> X1_ik
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_kbja
+Sorting      I1_kajb -> I1_kbja
+Contracting  I1_kbja * X1_ik -> X0_bjai
+dgemm
+Deallocating X1_ik
+Deallocating I1_kbja
+
+Finalizing eT function with total sort cost:
+1000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_cdli
+Sorting      I2_cidl -> I2_cdli
+Allocating   I3_cdlk
+Sorting      I3_ckdl -> I3_cdlk
+Allocating   X1_ik
+Contracting  I2_cdli * I3_cdlk -> X1_ik
+dgemm
+Deallocating I2_cdli
+Deallocating I3_cdlk
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_kbja
+Sorting      I1_kajb -> I1_kbja
+Contracting  I1_kbja * X1_ik -> X0_bjai
+dgemm
+Deallocating X1_ik
+Deallocating I1_kbja
+
+Finalizing eT function with total sort cost:
+3000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_cldi
+Sorting      I2_cidl -> I2_cldi
+Allocating   X1_ik
+Contracting  I2_cldi * I3_cldk -> X1_ik
+dgemm
+Deallocating I2_cldi
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_kbja
+Sorting      I1_kajb -> I1_kbja
+Contracting  I1_kbja * X1_ik -> X0_bjai
+dgemm
+Deallocating X1_ik
+Deallocating I1_kbja
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 6000000
+best_score = 5000000
+Total number of checked permutations: 256
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_dlja
+Sorting      I2_djal -> I2_dlja
+Allocating   I3_ckdl
+Sorting      I3_cldk -> I3_ckdl
+Allocating   X1_jack
+Contracting  I2_dlja * I3_ckdl -> X1_jack
+dgemm
+Deallocating I2_dlja
+Deallocating I3_ckdl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ckbi
+Sorting      I1_kbic -> I1_ckbi
+Allocating   X0_bija
+Contracting  I1_ckbi * X1_jack -> X0_bija
+dgemm
+Deallocating I1_ckbi
+Deallocating X1_jack
+
+Sorting      X0_bija -> X0_bjai
+Deallocating X0_bija
+Finalizing eT function with total sort cost:
+5000000
+best_score = 5000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_kcld
+Sorting      I3_cldk -> I3_kcld
+Allocating   I1_kcbi
+Sorting      I1_kbic -> I1_kcbi
+Allocating   X1_ldbi
+Contracting  I3_kcld * I1_kcbi -> X1_ldbi
+dgemm
+Deallocating I3_kcld
+Deallocating I1_kcbi
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ajld
+Sorting      I2_aldj -> I2_ajld
+Allocating   X0_biaj
+Contracting  X1_ldbi * I2_ajld -> X0_biaj
+dgemm
+Deallocating X1_ldbi
+Deallocating I2_ajld
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+5000000
+best_score = 4000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_cldk
+Sorting      I3_ckdl -> I3_cldk
+Allocating   X1_jk
+Contracting  I2_cldj * I3_cldk -> X1_jk
+dgemm
+Deallocating I3_cldk
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_biaj
+Contracting  I1_kbia * X1_jk -> X0_biaj
+dgemm
+Deallocating X1_jk
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2000000
+best_score = 1000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_jk
+Contracting  I2_cldj * I3_cldk -> X1_jk
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_biaj
+Contracting  I1_kbia * X1_jk -> X0_biaj
+dgemm
+Deallocating X1_jk
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+1000000
+best_score = 4000000
+best_score = 3000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_cdlj
+Sorting      I2_cjdl -> I2_cdlj
+Allocating   I3_cdlk
+Sorting      I3_ckdl -> I3_cdlk
+Allocating   X1_jk
+Contracting  I2_cdlj * I3_cdlk -> X1_jk
+dgemm
+Deallocating I2_cdlj
+Deallocating I3_cdlk
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_biaj
+Contracting  I1_kbia * X1_jk -> X0_biaj
+dgemm
+Deallocating X1_jk
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+3000000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_cldj
+Sorting      I2_cjdl -> I2_cldj
+Allocating   X1_jk
+Contracting  I2_cldj * I3_cldk -> X1_jk
+dgemm
+Deallocating I2_cldj
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_biaj
+Contracting  I1_kbia * X1_jk -> X0_biaj
+dgemm
+Deallocating X1_jk
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+2000000
+best_score = 5000000
+Total number of checked permutations: 64
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ijcd
+Sorting      I1_icjd -> I1_ijcd
+Allocating   I3_cdkl
+Sorting      I3_ckdl -> I3_cdkl
+Allocating   X1_ijkl
+Contracting  I1_ijcd * I3_cdkl -> X1_ijkl
+dgemm
+Deallocating I1_ijcd
+Deallocating I3_cdkl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_abkl
+Sorting      I2_akbl -> I2_abkl
+Allocating   X0_ijab
+Contracting  X1_ijkl * I2_abkl -> X0_ijab
+dgemm
+Deallocating X1_ijkl
+Deallocating I2_abkl
+
+Sorting      X0_ijab -> X0_bjai
+Deallocating X0_ijab
+Finalizing eT function with total sort cost:
+5000000
+best_score = 5010000
+best_score = 5000000
+best_score = 4010000
+best_score = 4000000
+Total number of checked permutations: 128
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ijcd
+Sorting      I1_icjd -> I1_ijcd
+Allocating   I3_cdkl
+Sorting      I3_cldk -> I3_cdkl
+Allocating   X1_ijkl
+Contracting  I1_ijcd * I3_cdkl -> X1_ijkl
+dgemm
+Deallocating I1_ijcd
+Deallocating I3_cdkl
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bakl
+Sorting      I2_bkal -> I2_bakl
+Allocating   X0_baij
+Contracting  I2_bakl * X1_ijkl -> X0_baij
+dgemm
+Deallocating X1_ijkl
+Deallocating I2_bakl
+
+Sorting      X0_baij -> X0_bjai
+Deallocating X0_baij
+Finalizing eT function with total sort cost:
+4000000
+best_score = 5000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_kdla
+Sorting      I2_dkal -> I2_kdla
+Allocating   X1_ac
+Contracting  I2_kdla * I3_ckdl -> X1_ac
+dgemm
+Deallocating I2_kdla
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ijbc
+Sorting      I1_icjb -> I1_ijbc
+Allocating   X0_aijb
+Contracting  X1_ac * I1_ijbc -> X0_aijb
+dgemm
+Deallocating X1_ac
+Deallocating I1_ijbc
+
+Sorting      X0_aijb -> X0_bjai
+Deallocating X0_aijb
+Finalizing eT function with total sort cost:
+5000000
+best_score = 5000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ldka
+Sorting      I2_dkal -> I2_ldka
+Allocating   X1_ac
+Contracting  I2_ldka * I3_cldk -> X1_ac
+dgemm
+Deallocating I2_ldka
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ijbc
+Sorting      I1_icjb -> I1_ijbc
+Allocating   X0_aijb
+Contracting  X1_ac * I1_ijbc -> X0_aijb
+dgemm
+Deallocating X1_ac
+Deallocating I1_ijbc
+
+Sorting      X0_aijb -> X0_bjai
+Deallocating X0_aijb
+Finalizing eT function with total sort cost:
+5000000
+best_score = 3000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ac
+Contracting  I2_akdl * I3_ckdl -> X1_ac
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ijbc
+Sorting      I1_icjb -> I1_ijbc
+Allocating   X0_aijb
+Contracting  X1_ac * I1_ijbc -> X0_aijb
+dgemm
+Deallocating X1_ac
+Deallocating I1_ijbc
+
+Sorting      X0_aijb -> X0_bjai
+Deallocating X0_aijb
+Finalizing eT function with total sort cost:
+3000000
+best_score = 4000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_aldk
+Sorting      I2_akdl -> I2_aldk
+Allocating   X1_ac
+Contracting  I2_aldk * I3_cldk -> X1_ac
+dgemm
+Deallocating I2_aldk
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_ijbc
+Sorting      I1_icjb -> I1_ijbc
+Allocating   X0_aijb
+Contracting  X1_ac * I1_ijbc -> X0_aijb
+dgemm
+Deallocating X1_ac
+Deallocating I1_ijbc
+
+Sorting      X0_aijb -> X0_bjai
+Deallocating X0_aijb
+Finalizing eT function with total sort cost:
+4000000
+best_score = 3000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_kdlb
+Sorting      I2_dkbl -> I2_kdlb
+Allocating   X1_bc
+Contracting  I2_kdlb * I3_ckdl -> X1_bc
+dgemm
+Deallocating I2_kdlb
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_biaj
+Contracting  X1_bc * I1_iajc -> X0_biaj
+dgemm
+Deallocating X1_bc
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+3000000
+best_score = 3000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ldkb
+Sorting      I2_dkbl -> I2_ldkb
+Allocating   X1_bc
+Contracting  I2_ldkb * I3_cldk -> X1_bc
+dgemm
+Deallocating I2_ldkb
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_biaj
+Contracting  X1_bc * I1_iajc -> X0_biaj
+dgemm
+Deallocating X1_bc
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+3000000
+best_score = 1000000
+Total number of checked permutations: 24
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bc
+Contracting  I2_bkdl * I3_ckdl -> X1_bc
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_biaj
+Contracting  X1_bc * I1_iajc -> X0_biaj
+dgemm
+Deallocating X1_bc
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+1000000
+best_score = 2000000
+Total number of checked permutations: 48
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_bldk
+Sorting      I2_bkdl -> I2_bldk
+Allocating   X1_bc
+Contracting  I2_bldk * I3_cldk -> X1_bc
+dgemm
+Deallocating I2_bldk
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_biaj
+Contracting  X1_bc * I1_iajc -> X0_biaj
+dgemm
+Deallocating X1_bc
+
+Sorting      X0_biaj -> X0_bjai
+Deallocating X0_biaj
+Finalizing eT function with total sort cost:
+2000000

@@ -1,0 +1,1010 @@
+Finalizing eT function with total sort cost:
+0
+best_score = 2000
+best_score = 0
+Total number of checked permutations: 2
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I2_ba * I1_bi -> X0_ai
+dgemm
+
+Finalizing eT function with total sort cost:
+0
+best_score = 2000
+best_score = 0
+Total number of checked permutations: 2
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I1_aj * I2_ij -> X0_ai
+dgemm
+
+Finalizing eT function with total sort cost:
+0
+best_score = 0
+Total number of checked permutations: 1
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Tracing      I1_jj -> I1
+
+Output is scaled input
+Finalizing eT function with total sort cost:
+0
+   subroutine jacobian_p_ccsd_mixed_doubles_1_p_ccsd(wf, sigma_AI_ai, c1_vo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), intent(in) :: c1_vo
+!
+!
+      sigma_AI_ai = sigma_AI_ai + c1_vo()
+!
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_1_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_2_p_ccsd(wf, sigma_AI_ai, c1_vo, g_IAvv)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: c1_vo
+      real(dp), dimension(wf%n_v,wf%n_v), intent(in) :: g_IAvv
+!
+!
+      call dgemm('T', 'N', &
+         wf%n_v, &
+         wf%n_o, &
+         wf%n_v, &
+         -one, &
+         g_IAvv, &
+         wf%n_v, &
+         c1_vo, &
+         wf%n_v, &
+         one, &
+         sigma_AI_ai, &
+         wf%n_v)
+!
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_2_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_3_p_ccsd(wf, sigma_AI_ai, c1_vo, g_IAoo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_o,wf%n_o), intent(in) :: g_IAoo
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: c1_vo
+!
+!
+      call dgemm('N', 'T', &
+         wf%n_v, &
+         wf%n_o, &
+         wf%n_o, &
+         one, &
+         c1_vo, &
+         wf%n_v, &
+         g_IAoo, &
+         wf%n_o, &
+         one, &
+         sigma_AI_ai, &
+         wf%n_v)
+!
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_3_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_4_p_ccsd(wf, sigma_AI_ai, c1_vo, g_IAoo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), intent(in) :: c1_vo
+      real(dp), dimension(wf%n_o,wf%n_o), intent(in) :: g_IAoo
+!
+      real(dp) :: X1
+!
+      integer :: i1
+!
+      X1 = zero
+!
+      do i1 = 1, wf%n_o
+         X1 = X1 + g_IAoo(i1,i1)
+      end do
+!
+      sigma_AI_ai = sigma_AI_ai + -two*c1_vo * X1
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_4_p_ccsd
+
+best_score = 0
+Total number of checked permutations: 1
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I1_bjai * I2_bj -> X0_ai
+dgemv
+
+Finalizing eT function with total sort cost:
+0
+best_score = 2000
+best_score = 0
+Total number of checked permutations: 3
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_ik
+Contracting  I1_bjci * I3_bjck -> X1_ik
+dgemm
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I2_ka * X1_ik -> X0_ai
+dgemm
+Deallocating X1_ik
+
+Finalizing eT function with total sort cost:
+0
+best_score = 2000000
+Total number of checked permutations: 4
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bjka
+Sorting      I1_bjak -> I1_bjka
+Allocating   I3_bjkc
+Sorting      I3_bjck -> I3_bjkc
+Allocating   X1_ac
+Contracting  I1_bjka * I3_bjkc -> X1_ac
+dgemm
+Deallocating I1_bjka
+Deallocating I3_bjkc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  X1_ac * I2_ic -> X0_ai
+dgemm
+Deallocating X1_ac
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I2_ck
+Sorting      I2_kc -> I2_ck
+Allocating   X1_bj
+Contracting  I2_ck * I3_bjck -> X1_bj
+dgemv
+Deallocating I2_ck
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I1_bjai * X1_bj -> X0_ai
+dgemv
+Deallocating X1_bj
+
+Finalizing eT function with total sort cost:
+2000
+   subroutine jacobian_p_ccsd_mixed_doubles_5_p_ccsd(wf, sigma_AI_ai, c2_vovo, g_IAvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: g_IAvo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo
+!
+!
+      call dgemv('T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         -two, &
+         c2_vovo, &
+         wf%n_v*wf%n_o, &
+         g_IAvo, 1, &
+         one, &
+         sigma_AI_ai, 1)
+!
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_5_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_6_p_ccsd(wf, sigma_AI_ai, c2_vovo, g_IAov, t_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IAov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, t_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_o, wf%n_o)
+!
+      call dgemm('T', 'N', &
+         wf%n_o, &
+         wf%n_o, &
+         wf%n_v**2*wf%n_o, &
+         two, &
+         c2_vovo, &
+         wf%n_v**2*wf%n_o, &
+         t_vovo, &
+         wf%n_v**2*wf%n_o, &
+         zero, &
+         X1, &
+         wf%n_o)
+!
+!
+      call dgemm('T', 'T', &
+         wf%n_v, &
+         wf%n_o, &
+         wf%n_o, &
+         one, &
+         g_IAov, &
+         wf%n_o, &
+         X1, &
+         wf%n_o, &
+         one, &
+         sigma_AI_ai, &
+         wf%n_v)
+!
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_6_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_7_p_ccsd(wf, sigma_AI_ai, c2_vovo, g_IAov, t_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IAov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, t_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X3
+      real(dp), dimension(:,:,:,:), allocatable :: X1, X2
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+      call sort_to_1243(c2_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_o, wf%n_o, wf%n_v)
+      call sort_to_1243(t_vovo, X2, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X3, wf%n_v, wf%n_v)
+!
+      call dgemm('T', 'N', &
+         wf%n_v, &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         two, &
+         X1, &
+         wf%n_v*wf%n_o**2, &
+         X2, &
+         wf%n_v*wf%n_o**2, &
+         zero, &
+         X3, &
+         wf%n_v)
+!
+      call mem%dealloc(X1)
+      call mem%dealloc(X2)
+!
+      call dgemm('N', 'T', &
+         wf%n_v, &
+         wf%n_o, &
+         wf%n_v, &
+         one, &
+         X3, &
+         wf%n_v, &
+         g_IAov, &
+         wf%n_o, &
+         one, &
+         sigma_AI_ai, &
+         wf%n_v)
+!
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_7_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_8_p_ccsd(wf, sigma_AI_ai, c2_vovo, g_IAov, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IAov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: c2_vovo, u_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X1, X2
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o)
+      call sort_to_21(g_IAov, X1, wf%n_o, wf%n_v)
+      call mem%alloc(X2, wf%n_v, wf%n_o)
+!
+      call dgemv('N', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         -two, &
+         u_vovo, &
+         wf%n_v*wf%n_o, &
+         X1, 1, &
+         zero, &
+         X2, 1)
+!
+      call mem%dealloc(X1)
+!
+      call dgemv('T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         c2_vovo, &
+         wf%n_v*wf%n_o, &
+         X2, 1, &
+         one, &
+         sigma_AI_ai, 1)
+!
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_8_p_ccsd
+
+best_score = 2000
+Total number of checked permutations: 2
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+
+Sorting      X0_ia -> X0_ai
+Finalizing eT function with total sort cost:
+2000
+best_score = 2000
+Total number of checked permutations: 2
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+
+Sorting      X0_ia -> X0_ai
+Finalizing eT function with total sort cost:
+2000
+   subroutine jacobian_p_ccsd_mixed_doubles_9_p_ccsd(wf, sigma_AI_ai, F_ov, p3_AI)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), intent(in) :: p3_AI
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: F_ov
+!
+      call add_21_to_12(p3_AI, F_ov, sigma_AI_ai, wf%n_v, wf%n_o)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_9_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_10_p_ccsd(wf, sigma_AI_ai, g_VAov, p3_VI)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), intent(in) :: p3_VI
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_VAov
+!
+      call add_21_to_12(-p3_VI, g_VAov, sigma_AI_ai, wf%n_v, wf%n_o)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_10_p_ccsd
+
+Finalizing eT function with total sort cost:
+0
+best_score = 0
+Total number of checked permutations: 1
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I1_ba * I2_bi -> X0_ai
+dgemm
+
+Finalizing eT function with total sort cost:
+0
+best_score = 2000
+best_score = 0
+Total number of checked permutations: 2
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I2_aj * I1_ij -> X0_ai
+dgemm
+
+Finalizing eT function with total sort cost:
+0
+best_score = 0
+Total number of checked permutations: 1
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Tracing      I1_jj -> I1
+
+Output is scaled input
+Finalizing eT function with total sort cost:
+0
+best_score = 0
+Total number of checked permutations: 1
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+
+Output is scaled input
+Finalizing eT function with total sort cost:
+0
+best_score = 2000
+Total number of checked permutations: 2
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X0_ia
+Contracting  I1_bjia * I2_bj -> X0_ia
+dgemv
+
+Sorting      X0_ia -> X0_ai
+Deallocating X0_ia
+Finalizing eT function with total sort cost:
+2000
+best_score = 0
+Total number of checked permutations: 1
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Tracing      I1_jj -> I1
+
+Output is scaled input
+Finalizing eT function with total sort cost:
+0
+best_score = 0
+Total number of checked permutations: 1
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I1_ba * I2_bi -> X0_ai
+dgemm
+
+Finalizing eT function with total sort cost:
+0
+best_score = 2000
+best_score = 0
+Total number of checked permutations: 2
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I2_aj * I1_ij -> X0_ai
+dgemm
+
+Finalizing eT function with total sort cost:
+0
+best_score = 2000
+Total number of checked permutations: 2
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[I1]
+Allocating   I2_bj
+Sorting      I2_jb -> I2_bj
+Contracting  I2_bj * I3_bj -> X0
+ddot
+Deallocating I2_bj
+
+Finalizing eT function with total sort cost:
+2000
+best_score = 2000
+Total number of checked permutations: 2
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I2_bj * I3_bj -> X1
+ddot
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+
+Sorting      X0_ia -> X0_ai
+Finalizing eT function with total sort cost:
+2000
+best_score = 2002000
+best_score = 4000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_bj
+Contracting  I2_ck * I3_bjck -> X1_bj
+dgemv
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   X1_jb
+Sorting      X1_bj -> X1_jb
+Deallocating X1_bj
+Allocating   X0_ia
+Contracting  I1_jbia * X1_jb -> X0_ia
+dgemv
+Deallocating X1_jb
+
+Sorting      X0_ia -> X0_ai
+Deallocating X0_ia
+Finalizing eT function with total sort cost:
+4000
+best_score = 3000000
+best_score = 2000000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I3_jbkc
+Sorting      I3_bjck -> I3_jbkc
+Allocating   X1_ac
+Contracting  I1_jbka * I3_jbkc -> X1_ac
+dgemm
+Deallocating I3_jbkc
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  X1_ac * I2_ci -> X0_ai
+dgemm
+Deallocating X1_ac
+
+Finalizing eT function with total sort cost:
+2000000
+best_score = 2002000
+best_score = 2000000
+Total number of checked permutations: 8
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_bjci
+Sorting      I1_jbic -> I1_bjci
+Allocating   X1_ik
+Contracting  I1_bjci * I3_bjck -> X1_ik
+dgemm
+Deallocating I1_bjci
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  I2_ak * X1_ik -> X0_ai
+dgemm
+Deallocating X1_ik
+
+Finalizing eT function with total sort cost:
+2000000
+   subroutine jacobian_p_ccsd_mixed_doubles_11_p_ccsd(wf, sigma_AI_ai, h_II)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), intent(in) :: h_II
+!
+!
+      sigma_AI_ai = sigma_AI_ai + h_II()
+!
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_11_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_12_p_ccsd(wf, sigma_AI_ai, F_vv, p_AIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_AIvo
+      real(dp), dimension(wf%n_v,wf%n_v), intent(in) :: F_vv
+!
+!
+      call dgemm('T', 'N', &
+         wf%n_v, &
+         wf%n_o, &
+         wf%n_v, &
+         0.500000000000000, &
+         F_vv, &
+         wf%n_v, &
+         p_AIvo, &
+         wf%n_v, &
+         one, &
+         sigma_AI_ai, &
+         wf%n_v)
+!
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_12_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_13_p_ccsd(wf, sigma_AI_ai, F_oo, p_AIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_o,wf%n_o), intent(in) :: F_oo
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_AIvo
+!
+!
+      call dgemm('N', 'T', &
+         wf%n_v, &
+         wf%n_o, &
+         wf%n_o, &
+         -0.500000000000000, &
+         p_AIvo, &
+         wf%n_v, &
+         F_oo, &
+         wf%n_o, &
+         one, &
+         sigma_AI_ai, &
+         wf%n_v)
+!
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_13_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_14_p_ccsd(wf, sigma_AI_ai, g_IIoo, p_AIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), intent(in) :: p_AIvo
+      real(dp), dimension(wf%n_o,wf%n_o), intent(in) :: g_IIoo
+!
+      real(dp) :: X1
+!
+      integer :: i1
+!
+      X1 = zero
+!
+      do i1 = 1, wf%n_o
+         X1 = X1 + g_IIoo(i1,i1)
+      end do
+!
+      sigma_AI_ai = sigma_AI_ai + p_AIvo * X1
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_14_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_15_p_ccsd(wf, sigma_AI_ai, h_VA, p_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), intent(in) :: h_VA
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_VIvo
+!
+      call daxpy(wf%n_v*wf%n_o, 0.5*h_VA, p_VIvo, 1, sigma_AI_ai, 1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_15_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_16_p_ccsd(wf, sigma_AI_ai, L_voov, p_AIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_AIvo
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_o,wf%n_v), intent(in) :: L_voov
+!
+      real(dp), dimension(:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_o, wf%n_v)
+!
+      call dgemv('T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         0.500000000000000, &
+         L_voov, &
+         wf%n_v*wf%n_o, &
+         p_AIvo, 1, &
+         zero, &
+         X1, 1)
+!
+      call add_21_to_12(one, X1, sigma_AI_ai, wf%n_v, wf%n_o)
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_16_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_17_p_ccsd(wf, sigma_AI_ai, g_VAoo, p_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_o,wf%n_o), intent(in) :: g_VAoo
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_VIvo
+!
+      real(dp) :: X1
+!
+      integer :: i1
+!
+      X1 = zero
+!
+      do i1 = 1, wf%n_o
+         X1 = X1 + g_VAoo(i1,i1)
+      end do
+!
+      call daxpy(wf%n_v*wf%n_o, -X1, p_VIvo, 1, sigma_AI_ai, 1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_17_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_18_p_ccsd(wf, sigma_AI_ai, g_VAvv, p_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_VIvo
+      real(dp), dimension(wf%n_v,wf%n_v), intent(in) :: g_VAvv
+!
+!
+      call dgemm('T', 'N', &
+         wf%n_v, &
+         wf%n_o, &
+         wf%n_v, &
+         -0.500000000000000, &
+         g_VAvv, &
+         wf%n_v, &
+         p_VIvo, &
+         wf%n_v, &
+         one, &
+         sigma_AI_ai, &
+         wf%n_v)
+!
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_18_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_19_p_ccsd(wf, sigma_AI_ai, g_VAoo, p_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_o,wf%n_o), intent(in) :: g_VAoo
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_VIvo
+!
+!
+      call dgemm('N', 'T', &
+         wf%n_v, &
+         wf%n_o, &
+         wf%n_o, &
+         0.500000000000000, &
+         p_VIvo, &
+         wf%n_v, &
+         g_VAoo, &
+         wf%n_o, &
+         one, &
+         sigma_AI_ai, &
+         wf%n_v)
+!
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_19_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_20_p_ccsd(wf, sigma_AI_ai, g_IVov, p_AIvo, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), intent(in) :: p_AIvo
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IVov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: s_VIvo
+!
+      real(dp), dimension(:,:), allocatable :: X1
+!
+      real(dp), external :: ddot
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o)
+      call sort_to_21(g_IVov, X1, wf%n_o, wf%n_v)
+      sigma_AI_ai = sigma_AI_ai + p_AIvo * ddot(wf%n_v*wf%n_o, X1, 1, s_VIvo, 1)
+      call mem%dealloc(X1)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_20_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_21_p_ccsd(wf, sigma_AI_ai, g_IAov, p_VIvo, s_VIvo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(in) :: g_IAov
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_VIvo, s_VIvo
+!
+      real(dp) :: X1
+!
+      real(dp), external :: ddot
+!
+      X1 = ddot(wf%n_v*wf%n_o, p_VIvo, 1, s_VIvo, 1)
+      call add_21_to_12(X1, g_IAov, sigma_AI_ai, wf%n_v, wf%n_o)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_21_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_22_p_ccsd(wf, sigma_AI_ai, L_ovov, p_AIvo, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_AIvo
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: L_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: u_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X1, X2, X3
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o)
+!
+      call dgemv('N', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         0.500000000000000, &
+         u_vovo, &
+         wf%n_v*wf%n_o, &
+         p_AIvo, 1, &
+         zero, &
+         X1, 1)
+!
+      call mem%alloc(X2, wf%n_o, wf%n_v)
+      call sort_to_21(X1, X2, wf%n_v, wf%n_o)
+      call mem%dealloc(X1)
+      call mem%alloc(X3, wf%n_o, wf%n_v)
+!
+      call dgemv('T', &
+         wf%n_v*wf%n_o, &
+         wf%n_v*wf%n_o, &
+         one, &
+         L_ovov, &
+         wf%n_v*wf%n_o, &
+         X2, 1, &
+         zero, &
+         X3, 1)
+!
+      call mem%dealloc(X2)
+      call add_21_to_12(one, X3, sigma_AI_ai, wf%n_v, wf%n_o)
+      call mem%dealloc(X3)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_22_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_23_p_ccsd(wf, sigma_AI_ai, g_ovov, p_AIvo, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_AIvo
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: u_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X2
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call sort_to_2143(u_vovo, X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%n_v, wf%n_v)
+!
+      call dgemm('T', 'N', &
+         wf%n_v, &
+         wf%n_v, &
+         wf%n_v*wf%n_o**2, &
+         -0.500000000000000, &
+         g_ovov, &
+         wf%n_v*wf%n_o**2, &
+         X1, &
+         wf%n_v*wf%n_o**2, &
+         zero, &
+         X2, &
+         wf%n_v)
+!
+      call mem%dealloc(X1)
+!
+      call dgemm('N', 'N', &
+         wf%n_v, &
+         wf%n_o, &
+         wf%n_v, &
+         one, &
+         X2, &
+         wf%n_v, &
+         p_AIvo, &
+         wf%n_v, &
+         one, &
+         sigma_AI_ai, &
+         wf%n_v)
+!
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_23_p_ccsd
+
+   subroutine jacobian_p_ccsd_mixed_doubles_24_p_ccsd(wf, sigma_AI_ai, g_ovov, p_AIvo, u_vovo)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(inout) :: sigma_AI_ai
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: p_AIvo
+      real(dp), dimension(wf%n_o,wf%n_v,wf%n_o,wf%n_v), intent(in) :: g_ovov
+      real(dp), dimension(wf%n_v,wf%n_o,wf%n_v,wf%n_o), intent(in) :: u_vovo
+!
+      real(dp), dimension(:,:), allocatable :: X2
+      real(dp), dimension(:,:,:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_v, wf%n_o, wf%n_v, wf%n_o)
+      call sort_to_2143(g_ovov, X1, wf%n_o, wf%n_v, wf%n_o, wf%n_v)
+      call mem%alloc(X2, wf%n_o, wf%n_o)
+!
+      call dgemm('T', 'N', &
+         wf%n_o, &
+         wf%n_o, &
+         wf%n_v**2*wf%n_o, &
+         -0.500000000000000, &
+         X1, &
+         wf%n_v**2*wf%n_o, &
+         u_vovo, &
+         wf%n_v**2*wf%n_o, &
+         zero, &
+         X2, &
+         wf%n_o)
+!
+      call mem%dealloc(X1)
+!
+      call dgemm('N', 'T', &
+         wf%n_v, &
+         wf%n_o, &
+         wf%n_o, &
+         one, &
+         p_AIvo, &
+         wf%n_v, &
+         X2, &
+         wf%n_o, &
+         one, &
+         sigma_AI_ai, &
+         wf%n_v)
+!
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_mixed_doubles_24_p_ccsd
+
+
+

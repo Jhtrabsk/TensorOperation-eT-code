@@ -1,0 +1,48 @@
+T1_T1_1 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c1_vo = ("c1_vo", true)
+    g_IIvv = ("g_IIvv", true)
+    update_code!(func,
+    ein"bi,ba->ai", -1, [c1_vo, g_IIvv])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_1", "p_ccsd")
+end
+
+T1_T1_2 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c1_vo = ("c1_vo", true)
+    g_IIoo = ("g_IIoo", true)
+    update_code!(func,
+    ein"aj,ij->ai", +1, [c1_vo, g_IIoo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_2", "p_ccsd")
+end
+
+T1_T1_3 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c1_vo = ("c1_vo", true)
+    g_IVov = ("g_IVov", true)
+    s_VIvo = ("s_VIvo", true)
+    update_code!(func,
+    ein"bj,ia,bj->ai", -2, [c1_vo, g_IVov, s_VIvo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_3", "p_ccsd")
+end
+
+T1_T1_4 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c1_vo = ("c1_vo", true)
+    g_IVov = ("g_IVov", true)
+    s_VIvo = ("s_VIvo", true)
+    update_code!(func,
+    ein"bi,ja,bj->ai", +1, [c1_vo, g_IVov, s_VIvo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_4", "p_ccsd")
+end
+
+T1_T1_5 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c1_vo = ("c1_vo", true)
+    g_IVov = ("g_IVov", true)
+    s_VIvo = ("s_VIvo", true)
+    update_code!(func,
+    ein"aj,ib,bj->ai", +1, [c1_vo, g_IVov, s_VIvo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_5", "p_ccsd")
+end
+

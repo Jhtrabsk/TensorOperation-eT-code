@@ -1,0 +1,63 @@
+best_score = 2000
+Total number of checked permutations: 4
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Allocating   I1_jb
+Sorting      I1_bj -> I1_jb
+Allocating   X1_x
+Contracting  I1_jb * I2_xjb -> X1_x
+dgemv
+Deallocating I1_jb
+
+scalars = Tuple{Tuple{Bool, Int64}, Vector{Char}}[]
+Contracting  X1_x * I3_xai -> X0_ai
+dgemv
+Deallocating X1_x
+
+Finalizing eT function with total sort cost:
+2000
+   subroutine jacobian_p_ccsd_singles_3_p_ccsd(wf, sigma_ai, c_vo, g_IVov)
+!!
+!! Generated function
+!!
+      implicit none
+!
+      class(p_ccsd), intent(in) :: wf
+!
+      real(dp), dimension(wf%n_o,wf%n_v), intent(inout) :: sigma_ai
+!
+      real(dp), dimension(wf%n_v,wf%n_o), intent(in) :: c_vo
+      real(dp), dimension(wf%positronic_active_space,wf%n_o,wf%n_v), intent(in) :: g_IVov
+!
+      real(dp), dimension(:), allocatable :: X2
+      real(dp), dimension(:,:), allocatable :: X1
+!
+      call mem%alloc(X1, wf%n_o, wf%n_v)
+      call sort_to_21(c_vo, X1, wf%n_v, wf%n_o)
+      call mem%alloc(X2, wf%positronic_active_space)
+!
+      call dgemv('N', &
+         wf%positronic_active_space, &
+         wf%n_v*wf%n_o, &
+         one, &
+         g_IVov, &
+         wf%positronic_active_space, &
+         X1, 1, &
+         zero, &
+         X2, 1)
+!
+      call mem%dealloc(X1)
+!
+      call dgemv('T', & 
+         wf%positronic_active_space, &
+         wf%n_v*wf%n_o, &
+         one, &
+         S_AIai, &
+         wf%positronic_active_space, &
+         X2, 1, &
+         one, &
+         sigma_ai, 1)
+!
+      call mem%dealloc(X2)
+!
+   end subroutine jacobian_p_ccsd_singles_3_p_ccsd
+

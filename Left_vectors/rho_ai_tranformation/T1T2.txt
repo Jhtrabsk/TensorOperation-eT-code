@@ -1,0 +1,116 @@
+T2_T2_1 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IIvv = ("g_IIvv", true)
+    update_code!(func,
+    ein"cibj,ca->bjai", -2, [c2_vovo, g_IIvv])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_5", "p_ccsd")
+end
+
+T2_T2_2 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IIvv = ("g_IIvv", true)
+    update_code!(func,
+    ein"cjai,cb->bjai", -2, [c2_vovo, g_IIvv])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_6", "p_ccsd")
+end
+
+T2_T2_3 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IIoo = ("g_IIoo", true)
+    update_code!(func,
+    ein"akbj,ik->bjai", +2, [c2_vovo, g_IIoo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_7", "p_ccsd")
+end
+
+T2_T2_4 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IIoo = ("g_IIoo", true)
+    update_code!(func,
+    ein"aibk,jk->bjai", +2, [c2_vovo, g_IIoo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_8", "p_ccsd")
+end
+
+T2_T2_5 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IVov = ("g_IVov", true)
+    s_VIvo = ("s_VIvo", true)
+    update_code!(func,
+    ein"ckai,jb,ck->bjai", -4, [c2_vovo, g_IVov, s_VIvo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_9", "p_ccsd")
+end
+
+T2_T2_6 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IVov = ("g_IVov", true)
+    s_VIvo = ("s_VIvo", true)
+    update_code!(func,
+    ein"ckaj,ib,ck->bjai", +2, [c2_vovo, g_IVov, s_VIvo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_10", "p_ccsd")
+end
+
+T2_T2_7 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IVov = ("g_IVov", true)
+    s_VIvo = ("s_VIvo", true)
+    update_code!(func,
+    ein"ckbi,ja,ck->bjai", +2, [c2_vovo, g_IVov, s_VIvo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_11", "p_ccsd")
+end
+
+T2_T2_8 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IVov = ("g_IVov", true)
+    s_VIvo = ("s_VIvo", true)
+    update_code!(func,
+    ein"ckbj,ia,ck->bjai", -4, [c2_vovo, g_IVov, s_VIvo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_12", "p_ccsd")
+end
+
+T2_T2_9 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IVov = ("g_IVov", true)
+    s_VIvo = ("s_VIvo", true)
+    update_code!(func,
+    ein"cibj,ka,ck->bjai", +2, [c2_vovo, g_IVov, s_VIvo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_13", "p_ccsd")
+end
+
+T2_T2_10 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IVov = ("g_IVov", true)
+    s_VIvo = ("s_VIvo", true)
+    update_code!(func,
+    ein"cjai,kb,ck->bjai", +2, [c2_vovo, g_IVov, s_VIvo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_14", "p_ccsd")
+end
+
+T2_T2_11 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IVov = ("g_IVov", true)
+    s_VIvo = ("s_VIvo", true)
+    update_code!(func,
+    ein"akbj,ic,ck->bjai", +2, [c2_vovo, g_IVov, s_VIvo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_15", "p_ccsd")
+end
+
+T2_T2_12 = let
+    func     = FortranFunction(("sigma_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IVov = ("g_IVov", true)
+    s_VIvo = ("s_VIvo", true)
+    update_code!(func,
+    ein"aibk,jc,ck->bjai", +2, [c2_vovo, g_IVov, s_VIvo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_16", "p_ccsd")
+end
+
