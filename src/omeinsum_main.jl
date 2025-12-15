@@ -147,7 +147,7 @@ function test19()
 
     func = FortranFunction("E")
 
-    update_code!(func, ein"ii->", 2, [h_oo])
+    update_code!(func, ein"ww->", 2, [h_oo])
     update_code!(func, ein"iijj->", 2, [g_oooo])
     update_code!(func, ein"ijji->", -1, [g_oooo])
 
@@ -170,9 +170,9 @@ function test20()
 
     func = FortranFunction(("rho_vovo", ["v", "o", "v", "o"]))
 
-    update_code!(func, ein"ai,kc,bjck->aibj", 1, [cs, d_ov, u_vovo], outperms)
-    update_code!(func, ein"ak,kc,bjci,->aibj", -1, [ct, d_ov, t_vovo, γ], outperms)
-    update_code!(func, ein"ci,kc,akbj,->aibj", -1, [ct, d_ov, t_vovo, γ], outperms)
+    update_code!(func, ein"ai,wc,bjcw->aibj", 1, [cs, d_ov, u_vovo], outperms)
+    update_code!(func, ein"aw,wc,bjci,->aibj", -1, [ct, d_ov, t_vovo, γ], outperms)
+    update_code!(func, ein"ci,wc,awbj,->aibj", -1, [ct, d_ov, t_vovo, γ], outperms)
 
     open("tmp.f90", "w") do io
         println(io, finalize_eT_function(func, "rho_test", "qed_ccsd"))

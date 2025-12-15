@@ -25,7 +25,7 @@ function reset_state()
     empty!(output_parameters)
     empty!(input_parameters)
     empty!(local_variables)
-end
+end 
 
 function input_scalar(s)
     push!(input_parameters, s => () => ())
