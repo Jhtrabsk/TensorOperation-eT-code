@@ -1,0 +1,71 @@
+
+S1_S1_1 = let
+    func     = FortranFunction(("sigma_AI_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IVvv = ("g_IVvv", true)
+    s_VIvo = ("s_VIvo", true)
+    update_code!(func,
+    ein"bjci,ca,bj->ai", -2, [c2_vovo, g_IVvv, s_VIvo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_21", "p_ccsd")
+end
+
+S1_S1_2 = let
+    func     = FortranFunction(("sigma_AI_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IVoo = ("g_IVoo", true)
+    s_VIvo = ("s_VIvo", true)
+    update_code!(func,
+    ein"bjak,ik,bj->ai", +2, [c2_vovo, g_IVoo, s_VIvo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_22", "p_ccsd")
+end
+
+S1_S1_3 = let
+    func     = FortranFunction(("sigma_AI_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IIov = ("g_IIov", true)
+    t_vovo = ("t_vovo", true)
+    update_code!(func,
+    ein"bjci,ka,bjck->ai", +2, [c2_vovo, g_IIov, t_vovo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_23", "p_ccsd")
+end
+
+S1_S1_4 = let
+    func     = FortranFunction(("sigma_AI_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IIov = ("g_IIov", true)
+    t_vovo = ("t_vovo", true)
+    update_code!(func,
+    ein"bjak,ic,bjck->ai", +2, [c2_vovo, g_IIov, t_vovo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_24", "p_ccsd")
+end
+
+S1_S1_5 = let
+    func     = FortranFunction(("sigma_AI_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IVov = ("g_IVov", true)
+    s2_VIvovo = ("s2_VIvovo", true)
+    update_code!(func,
+    ein"bjck,ia,bjck->ai", -2, [c2_vovo, g_IVov, s2_VIvovo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_25", "p_ccsd")
+end
+
+S1_S1_6 = let
+    func     = FortranFunction(("sigma_AI_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IVov = ("g_IVov", true)
+    s2_VIvovo = ("s2_VIvovo", true)
+    update_code!(func,
+    ein"bjci,ka,bjck->ai", +2, [c2_vovo, g_IVov, s2_VIvovo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_26", "p_ccsd")
+end
+
+S1_S1_7 = let
+    func     = FortranFunction(("sigma_AI_ai", ["v", "o"]))
+    c2_vovo = ("c2_vovo", true)
+    g_IVov = ("g_IVov", true)
+    s2_VIvovo = ("s2_VIvovo", true)
+    update_code!(func,
+    ein"bjak,ic,bjck->ai", +2, [c2_vovo, g_IVov, s2_VIvovo])
+    finalize_eT_function(func, "jacobian_p_ccsd_mixed_doubles_27", "p_ccsd")
+end
+

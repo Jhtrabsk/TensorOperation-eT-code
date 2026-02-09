@@ -4,7 +4,7 @@ from string import Template
 
 function_template = Template("""
 $name$i = let
-    func     = FortranFunction(("sigma_AI_ai", ["v", "o"]))
+    func     = FortranFunction(("density", ["o", "o"]))
 $variables_definition
     update_code!(func,
     ein"$einsum", $factor, [$variables_call])
