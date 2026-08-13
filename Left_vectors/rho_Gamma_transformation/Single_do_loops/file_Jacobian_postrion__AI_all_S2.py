@@ -1,0 +1,2 @@
+E = E .+  +0.25000000  * fixed_einsum("ab,aicj,bicj->", extract_mat(g_p, "IIvv", o, v), extract_mat(p2, "AIvovo", o, v), extract_mat(t, "vovo", o, v), optimize="optimal");
+E = E .+  -0.25000000  * fixed_einsum("ij,akbj,akbi->", extract_mat(g_p, "IIoo", o, v), extract_mat(p2, "AIvovo", o, v), extract_mat(t, "vovo", o, v), optimize="optimal");

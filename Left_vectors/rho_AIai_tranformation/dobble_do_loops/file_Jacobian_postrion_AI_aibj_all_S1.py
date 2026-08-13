@@ -1,0 +1,4 @@
+E_bjai[:,:,:,:] = E_bjai[:,:,:,:] .+  -2.00000000  * fixed_einsum("Bai,Bjb->bjai", extract_mat(L2, "VIvo", o, v), extract_mat(g_p, "VAov", o, v), optimize="optimal");
+E_bjai[:,:,:,:] = E_bjai[:,:,:,:] .+  +1.00000000  * fixed_einsum("Baj,Bib->bjai", extract_mat(L2, "VIvo", o, v), extract_mat(g_p, "VAov", o, v), optimize="optimal");
+E_bjai[:,:,:,:] = E_bjai[:,:,:,:] .+  +1.00000000  * fixed_einsum("Bbi,Bja->bjai", extract_mat(L2, "VIvo", o, v), extract_mat(g_p, "VAov", o, v), optimize="optimal");
+E_bjai[:,:,:,:] = E_bjai[:,:,:,:] .+  -2.00000000  * fixed_einsum("Bbj,Bia->bjai", extract_mat(L2, "VIvo", o, v), extract_mat(g_p, "VAov", o, v), optimize="optimal");

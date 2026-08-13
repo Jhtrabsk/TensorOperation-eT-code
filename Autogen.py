@@ -4,7 +4,7 @@ from string import Template
 
 function_template = Template("""
 $name$i = let
-    func     = FortranFunction(("density", ["o", "o"]))
+    func     = FortranFunction(("sigma ", ["v", "o", "v", "o"]))
 $variables_definition
     update_code!(func,
     ein"$einsum", $factor, [$variables_call])
@@ -69,7 +69,7 @@ if __name__ == "__main__":
     parser = ArgumentParser(description="Generate a orrible stuff from a orrible Julia stuff .")
     parser.add_argument("filename", help="File with the Julia stuff.")
     parser.add_argument("start_index", type=int, default=0, help="Starting index for function naming.")
-    parser.add_argument("term_name", type=str, default="S2_S1", help="Term name for function naming.")
+    parser.add_argument("term_name", type=str, default="S2_S2", help="Term name for function naming.")
     args = parser.parse_args()
 
     result = parse_file_and_construct(args.filename, args.term_name, args.start_index)

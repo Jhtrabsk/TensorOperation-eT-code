@@ -64,6 +64,8 @@ function make_ov_dimdict(code::Union{StaticEinCode{Char},DynamicEinCode{Char},St
             elseif i in "wxyz" # endre her 
                 "a"
             end
+
+            
     end
     dimdict
 end
@@ -533,7 +535,10 @@ eT_dim_dict::Dict{String,String} = Dict{String,String}([
     "v" => "wf%n_v",
     "o" => "wf%n_o",
     "g" => "wf%n_mo",
-    "a" => "wf%positronic_active_space", # endre her, 
+    "x" => "wf%positronic_active_space", # endre her,
+    "w" => "wf%positronic_active_space", # endre her, 
+    "a" => "wf%positronic_active_space", # endre her,
+    "b" => "wf%positronic_active_space", # endre her,      
     "J" => "wf%eri_t1%n_J",
 ])
 
